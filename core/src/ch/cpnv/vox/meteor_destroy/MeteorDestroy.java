@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.cpnv.vox.meteor_destroy.States.GameStateManager;
+import ch.cpnv.vox.meteor_destroy.States.MenuState;
 
 public class MeteorDestroy extends ApplicationAdapter {
-
-    public static final int WIDTH = Gdx.graphics.getWidth();
-    public static final int HEIGHT = Gdx.graphics.getHeight();
 
     private GameStateManager gsm;
     private SpriteBatch batch;
@@ -21,6 +19,8 @@ public class MeteorDestroy extends ApplicationAdapter {
 		batch = new SpriteBatch();
         gsm = new GameStateManager();
         Gdx.gl.glClearColor(1, 1, 1, 1);
+        // Added the first state on the states stack : Menu state
+        gsm.push(new MenuState(gsm));
 	}
 
 	@Override
