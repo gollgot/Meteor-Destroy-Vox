@@ -1,4 +1,4 @@
-package ch.cpnv.vox.meteor_destroy.States;
+package ch.cpnv.vox.meteor_destroy.states;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

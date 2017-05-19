@@ -3,11 +3,10 @@ package ch.cpnv.vox.meteor_destroy;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ch.cpnv.vox.meteor_destroy.States.GameStateManager;
-import ch.cpnv.vox.meteor_destroy.States.MenuState;
+import ch.cpnv.vox.meteor_destroy.states.GameStateManager;
+import ch.cpnv.vox.meteor_destroy.states.MenuState;
 
 public class MeteorDestroy extends ApplicationAdapter {
 
