@@ -6,28 +6,34 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ch.cpnv.vox.meteor_destroy.States.GameStateManager;
+
 public class MeteorDestroy extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+
+    public static final int WIDTH = Gdx.graphics.getWidth();
+    public static final int HEIGHT = Gdx.graphics.getHeight();
+
+    private GameStateManager gsm;
+    private SpriteBatch batch;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+        gsm = new GameStateManager();
+        Gdx.gl.glClearColor(1, 1, 1, 1);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+        // Refresh the board
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+        // The GameStateManager will update and render the first State on the States Stack
+        gsm.update(Gdx.graphics.getDeltaTime()); // The deltaTime is the difference between the render of two frame (prevent lag etc..)
+        gsm.render(batch);
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }
