@@ -2,10 +2,14 @@ package ch.cpnv.vox.meteor_destroy.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+
+import ch.cpnv.vox.meteor_destroy.sprites.Background;
+import ch.cpnv.vox.meteor_destroy.sprites.menu.PlayButton;
+import ch.cpnv.vox.meteor_destroy.sprites.menu.Title;
 
 /**
  * Created by Loïc on 19.05.2017.
@@ -13,12 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 public class MenuState extends State {
 
-    private int screenWidth;
-    private int screenHeight;
-    private Texture background;
-    private Texture title;
-    private Texture btnPlay;
-
+    private Sprite background;
+    private Sprite title;
+    private Sprite btnPlay;
 
     private Rectangle btnPlayBounds; //(Bounds = limits)
     private Vector3 touch;
@@ -27,30 +28,22 @@ public class MenuState extends State {
     public MenuState(GameStateManager gsm) {
         super(gsm);
 
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-
-        background = new Texture("background.png");
-        title = new Texture("menu_title.png");
-        btnPlay = new Texture("play_button.png");
-
+        background = new Background();
+        title = new Title();
+        btnPlay = new PlayButton();
         // Create a rectangle exactly same x/y as the button
-        btnPlayBounds = new Rectangle((screenWidth / 2) - (btnPlay.getWidth() / 2), (screenHeight / 2) - (btnPlay.getHeight() / 2), btnPlay.getWidth(), btnPlay.getHeight());
+        btnPlayBounds = new Rectangle(btnPlay.getX(), btnPlay.getY(), btnPlay.getWidth(), btnPlay.getHeight());
     }
 
     @Override
     public void handleInput() {
         // Touch listener -> While button is touched
-        if(Gdx.input.isTouched()){
+        if(Gdx.input.justTouched()){
             touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             // Detect if we touched the button
             if(btnPlayBounds.contains(touch.x, touch.y)){
-                btnPlay = new Texture("play_button_pressed.png");
+                System.out.println("TOUCH !");
             }
-        }
-        // If screen not touched, set buttonUnpressed
-        else{
-            btnPlay = new Texture("play_button.png");
         }
     }
 
@@ -62,17 +55,16 @@ public class MenuState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-
-        sb.draw(background, 0, 0);
-        sb.draw(title, (screenWidth / 2) - (title.getWidth() / 2), screenHeight - title.getHeight() - 200);
-        sb.draw(btnPlay, (screenWidth / 2) - (btnPlay.getWidth() / 2), (screenHeight / 2) - (btnPlay.getHeight() / 2));
-
+        background.draw(sb);
+        title.draw(sb);
+        btnPlay.draw(sb);
         sb.end();
     }
 
     @Override
     public void dispose() {
-        background.dispose();
-        btnPlay.dispose();
+        background.getTexture().dispose();
+        title.getTexture().dispose();
+        btnPlay.getTexture().dispose();
     }
 }
