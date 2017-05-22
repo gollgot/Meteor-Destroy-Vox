@@ -11,8 +11,6 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class Title extends Sprite {
 
-    private Sprite title = this;
-
     public Title(){
         super(new Texture("menu/title.png"));
         init();
@@ -20,10 +18,10 @@ public class Title extends Sprite {
 
     private void init() {
         // Modify the image size in proportion of the mobile resolution
-        title.setSize(Helpers.getWidthAdaptToResolution(title.getWidth()), Helpers.getHeightAdaptToResolution(title.getHeight()));
+        setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        title.setX((Helpers.MOBILE_WIDTH / 2) - (title.getWidth() / 2));
-        title.setY(Helpers.MOBILE_HEIGHT - title.getHeight() - Helpers.getHeightAdaptToResolution(200));
+        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2));
+        setY(Helpers.MOBILE_HEIGHT - getHeight() - Helpers.getHeightAdaptToResolution(200));
     }
 
 }

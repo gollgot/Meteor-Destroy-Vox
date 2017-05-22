@@ -11,8 +11,6 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class Background extends Sprite {
 
-    private Sprite background = this;
-
     public Background(){
         super(new Texture("background.png"));
         init();
@@ -20,9 +18,9 @@ public class Background extends Sprite {
 
     private void init() {
         // Modify the image size in proportion of the mobile resolution
-        background.setSize(Helpers.getWidthAdaptToResolution(background.getWidth()), Helpers.getHeightAdaptToResolution(background.getHeight()));
+        setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        background.setX(0);
-        background.setY(0);
+        setX(0);
+        setY(0);
     }
 }
