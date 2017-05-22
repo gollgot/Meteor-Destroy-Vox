@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.states.GameState;
+import ch.cpnv.vox.meteor_destroy.states.GameStateManager;
+import ch.cpnv.vox.meteor_destroy.states.MenuState;
 
 /**
  * Created by Loïc on 21.05.2017.
@@ -14,11 +17,11 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class PlayButton extends Sprite{
 
-    private Rectangle btnPlayBounds; //(Bounds = limits)
-    private Vector3 touch;
+    private GameStateManager gsm;
 
-    public PlayButton(){
+    public PlayButton(GameStateManager gsm){
         super(new Texture("menu/play_button.png"));
+        this.gsm = gsm;
         init();
     }
 
@@ -28,18 +31,6 @@ public class PlayButton extends Sprite{
         // Set the position (fixed)
         setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2));
         setY((Helpers.MOBILE_HEIGHT / 2) - (getHeight() / 2));
-        // Create a rectangle exactly same x/y as the button (For touch detection)
-        btnPlayBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
-    public void handleInput() {
-        // Touch listener -> While button is touched
-        if(Gdx.input.justTouched()){
-            touch = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            // Detect if we touched the button
-            if(btnPlayBounds.contains(touch.x, touch.y)){
-                System.out.println("TOUCH !");
-            }
-        }
-    }
 }
