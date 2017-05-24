@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
+import ch.cpnv.vox.meteor_destroy.sprites.game.Controller;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
 
 /**
@@ -19,12 +20,16 @@ public class GameState extends State implements InputProcessor{
 
     private Background background;
     private Player player;
+    private Controller controller;
 
     public GameState(GameStateManager gsm) {
         super(gsm);
+        // Mandatory to use the InputProcessor
         Gdx.input.setInputProcessor(this);
+        // init Sprites
         background = new Background();
         player = new Player();
+        controller =  new Controller();
     }
 
     @Override
@@ -36,12 +41,14 @@ public class GameState extends State implements InputProcessor{
     public void render(SpriteBatch sb) {
         sb.begin();
         background.draw(sb);
+        controller.render(sb);
         player.draw(sb);
         sb.end();
     }
 
     @Override
     public void dispose() {
+        controller.dispose();
         background.getTexture().dispose();
     }
 
