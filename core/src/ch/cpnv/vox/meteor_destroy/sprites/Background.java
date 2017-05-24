@@ -12,7 +12,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 public class Background extends Sprite {
 
     public Background(){
-        super(new Texture("background.png"));
+        super(new Texture("general/background.png"));
         init();
     }
 
