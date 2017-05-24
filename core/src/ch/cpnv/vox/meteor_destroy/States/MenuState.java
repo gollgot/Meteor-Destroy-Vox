@@ -28,9 +28,6 @@ public class MenuState extends State implements InputProcessor{
     private PlayButton btnPlay;
     private Music audio;
 
-    private Rectangle btnPlayBounds; //(Bounds = limits)
-
-
     public MenuState(GameStateManager gsm) {
         super(gsm);
         // Mandatory to use the InputProcessor
@@ -41,9 +38,6 @@ public class MenuState extends State implements InputProcessor{
         title = new Title();
         btnPlay = new PlayButton();
         initAudio();
-
-        // Create a rectangle exactly same x/y as the button (For touch detection)
-        btnPlayBounds = new Rectangle(btnPlay.getX(), btnPlay.getY(), btnPlay.getWidth(), btnPlay.getHeight());
     }
 
     private void initAudio() {
@@ -98,7 +92,8 @@ public class MenuState extends State implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(btnPlayBounds.contains(screenX, screenY)){
+        // I check if the play button bounds (rectangle) contains our Touch X,Y
+        if(btnPlay.getBounds().contains(screenX, screenY)){
             // Delete the first state and add new one
             audio.stop();
             gsm.pop();
