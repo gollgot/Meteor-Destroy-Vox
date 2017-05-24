@@ -17,10 +17,13 @@ public class MeteorDestroy extends ApplicationAdapter{
 	
 	@Override
 	public void create () {
+		// Mandatory, we say that we will use the physical backkey of the phone
 		Gdx.input.setCatchBackKey(true);
+
 		batch = new SpriteBatch();
         gsm = new GameStateManager();
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        //Gdx.gl.glClearColor(1, 1, 1, 1);
+
         // Added the first state on the states stack : Menu state
         gsm.push(new MenuState(gsm));
 	}

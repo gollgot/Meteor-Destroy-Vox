@@ -12,14 +12,10 @@ public class GameStateManager{
 
     private Stack<State> states;
 
-
-
     public GameStateManager() {
         // Create the states stack
         states = new Stack<State>();
     }
-
-
 
     // Add state on the stack
     public void push(State state){
@@ -34,8 +30,6 @@ public class GameStateManager{
         states.pop();
         states.push(state);
     }
-
-
 
     // update the first State on the stack
     public void update(float dt){

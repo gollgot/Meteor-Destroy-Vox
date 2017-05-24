@@ -38,14 +38,16 @@ public class GameState extends State implements InputProcessor{
         background.getTexture().dispose();
     }
 
+    /*-------------------------------------------------------------------*/
+
     @Override
     public boolean keyDown(int keycode) {
+        // Touch the physical back key of the phone
         if(keycode == Input.Keys.BACK){
             gsm.pop();
             gsm.push(new MenuState(gsm));
             // dispose all assets elements, to prevent memory leaks
             this.dispose();
-            System.out.println("GAME STATEEEEEEE");
         }
         return false;
     }

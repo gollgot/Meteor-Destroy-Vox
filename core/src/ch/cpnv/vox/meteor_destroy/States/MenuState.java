@@ -26,24 +26,24 @@ public class MenuState extends State implements InputProcessor{
     private Sprite background;
     private Title title;
     private PlayButton btnPlay;
-
     private Music audio;
 
     private Rectangle btnPlayBounds; //(Bounds = limits)
-    private Vector3 touch;
 
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
         // Mandatory to use the InputProcessor
         Gdx.input.setInputProcessor(this);
+
         // init Sprite
         background = new Background();
         title = new Title();
         btnPlay = new PlayButton(gsm);
+        initAudio();
+
         // Create a rectangle exactly same x/y as the button (For touch detection)
         btnPlayBounds = new Rectangle(btnPlay.getX(), btnPlay.getY(), btnPlay.getWidth(), btnPlay.getHeight());
-        initAudio();
     }
 
     private void initAudio() {
