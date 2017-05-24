@@ -11,6 +11,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Controller;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
+import ch.cpnv.vox.meteor_destroy.sprites.game.RedLaser;
 
 /**
  * Created by Loic.DESSAULES on 22.05.2017.
@@ -50,6 +51,7 @@ public class GameState extends State implements InputProcessor{
     public void dispose() {
         controller.dispose();
         background.getTexture().dispose();
+        player.getTexture().dispose();
     }
 
     /*-------------------------------------------------------------------*/
