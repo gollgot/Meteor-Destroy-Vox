@@ -13,7 +13,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class Controller{
 
-    private Sprite left, right;
+    private Sprite left, right, shoot, weapon;
     private Rectangle leftBounds, rightBounds;
 
     public Controller(){
@@ -24,12 +24,19 @@ public class Controller{
         // Create sprites
         left = new Sprite(new Texture("controls/left.png"));
         right = new Sprite(new Texture("controls/right.png"));
+        shoot = new Sprite(new Texture("controls/shoot.png"));
+        weapon = new Sprite(new Texture("controls/weapon.png"));
         // Set size
         left.setSize(Helpers.getWidthAdaptToResolution(left.getWidth()), Helpers.getHeightAdaptToResolution(left.getHeight()));
         right.setSize(Helpers.getWidthAdaptToResolution(right.getWidth()), Helpers.getHeightAdaptToResolution(right.getHeight()));
+        shoot.setSize(Helpers.getWidthAdaptToResolution(shoot.getWidth()), Helpers.getHeightAdaptToResolution(shoot.getHeight()));
+        weapon.setSize(Helpers.getWidthAdaptToResolution(weapon.getWidth()), Helpers.getHeightAdaptToResolution(weapon.getHeight()));
+
         // Set position (fixed)
         left.setPosition(Helpers.getWidthAdaptToResolution(50), Helpers.getHeightAdaptToResolution(50));
         right.setPosition(left.getWidth() + Helpers.getWidthAdaptToResolution(80), Helpers.getHeightAdaptToResolution(50));
+        shoot.setPosition(Helpers.MOBILE_WIDTH - Helpers.getWidthAdaptToResolution(50) - shoot.getWidth(), Helpers.getHeightAdaptToResolution(50));
+        weapon.setPosition(shoot.getX() - weapon.getWidth() - Helpers.getWidthAdaptToResolution(30), Helpers.getHeightAdaptToResolution(50));
 
         // I created an invisible rectangle, this will be the limits of the button touch detection
         // !!! Carefull, Rectangle x-y is from top-left of the screen and sprite bottom left !!!
@@ -41,12 +48,16 @@ public class Controller{
     public void render(SpriteBatch sb) {
         left.draw(sb);
         right.draw(sb);
+        shoot.draw(sb);
+        weapon.draw(sb);
     }
 
     // Dispose, to prevent memory leaks (Called from GameState)
     public void dispose(){
         left.getTexture().dispose();
         right.getTexture().dispose();
+        shoot.getTexture().dispose();
+        weapon.getTexture().dispose();
     }
 
     public Rectangle getLeftBounds() {
