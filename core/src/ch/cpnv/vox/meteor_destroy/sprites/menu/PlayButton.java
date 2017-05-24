@@ -17,11 +17,8 @@ import ch.cpnv.vox.meteor_destroy.states.MenuState;
 
 public class PlayButton extends Sprite{
 
-    private GameStateManager gsm;
-
-    public PlayButton(GameStateManager gsm){
+    public PlayButton(){
         super(new Texture("menu/play_button.png"));
-        this.gsm = gsm;
         init();
     }
 

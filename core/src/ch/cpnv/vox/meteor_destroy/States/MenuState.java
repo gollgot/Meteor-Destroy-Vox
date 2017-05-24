@@ -39,7 +39,7 @@ public class MenuState extends State implements InputProcessor{
         // init Sprite
         background = new Background();
         title = new Title();
-        btnPlay = new PlayButton(gsm);
+        btnPlay = new PlayButton();
         initAudio();
 
         // Create a rectangle exactly same x/y as the button (For touch detection)

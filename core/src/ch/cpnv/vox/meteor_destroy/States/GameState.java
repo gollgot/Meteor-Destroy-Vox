@@ -3,9 +3,13 @@ package ch.cpnv.vox.meteor_destroy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
+import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
 
 /**
  * Created by Loic.DESSAULES on 22.05.2017.
@@ -14,11 +18,13 @@ import ch.cpnv.vox.meteor_destroy.sprites.Background;
 public class GameState extends State implements InputProcessor{
 
     private Background background;
+    private Player player;
 
     public GameState(GameStateManager gsm) {
         super(gsm);
         Gdx.input.setInputProcessor(this);
         background = new Background();
+        player = new Player();
     }
 
     @Override
@@ -30,6 +36,7 @@ public class GameState extends State implements InputProcessor{
     public void render(SpriteBatch sb) {
         sb.begin();
         background.draw(sb);
+        player.draw(sb);
         sb.end();
     }
 
