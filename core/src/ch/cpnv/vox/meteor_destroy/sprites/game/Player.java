@@ -11,6 +11,10 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class Player extends Sprite {
 
+    private String direction = "stop";
+    private float vPlayer = 10;
+    private final float V_MAX = 7;
+
     public Player(){
         super(new Texture("game/player.png"));
         init();
@@ -24,4 +28,26 @@ public class Player extends Sprite {
         setY(Helpers.getHeightAdaptToResolution(300));
     }
 
+    public void update(){
+        move();
+    }
+
+    private void move(){
+        switch (direction){
+            case "left":
+                vPlayer -= .8;
+                break;
+            case "right":
+                vPlayer += .8;
+                break;
+            default:
+                vPlayer *= 0.7;
+                break;
+        }
+        setX(getX() + vPlayer);
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
 }

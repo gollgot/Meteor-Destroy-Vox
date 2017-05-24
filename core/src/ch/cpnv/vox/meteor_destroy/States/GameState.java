@@ -34,7 +34,7 @@ public class GameState extends State implements InputProcessor{
 
     @Override
     public void update(float dt) {
-
+        player.update();
     }
 
     @Override
@@ -81,19 +81,21 @@ public class GameState extends State implements InputProcessor{
 
         // Left controller detection
         if(controller.getLeftBounds().contains(screenX, screenY)){
+            player.setDirection("left");
             System.out.println("LEFT");
         }
         // Right controller detection
         if(controller.getRightBounds().contains(screenX, screenY)){
+            player.setDirection("right");
             System.out.println("Right");
         }
-
 
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        player.setDirection("stop");
         return false;
     }
 
