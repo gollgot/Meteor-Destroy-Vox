@@ -12,7 +12,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 public class Player extends Sprite {
 
     private String direction = "stop";
-    private float vPlayer = 10;
+    private float vPlayer = Helpers.getWidthAdaptToResolution(10);
     private final float V_MAX = 7;
 
     public Player(){
@@ -24,7 +24,7 @@ public class Player extends Sprite {
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2));
+        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
         setY(Helpers.getHeightAdaptToResolution(300));
     }
 
@@ -35,10 +35,10 @@ public class Player extends Sprite {
     private void move(){
         switch (direction){
             case "left":
-                vPlayer -= .8;
+                vPlayer -= Helpers.getWidthAdaptToResolution((float) .8);
                 break;
             case "right":
-                vPlayer += .8;
+                vPlayer += Helpers.getWidthAdaptToResolution((float) .8);
                 break;
             default:
                 vPlayer *= 0.7;
