@@ -13,7 +13,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 public class RedLaser extends Sprite{
 
     private Player player;
-    private float velocity = Helpers.getHeightAdaptToResolution(5);
+    private float velocity = Helpers.getHeightAdaptToResolution(8);
     private boolean alive;
 
     public RedLaser(Player player){
