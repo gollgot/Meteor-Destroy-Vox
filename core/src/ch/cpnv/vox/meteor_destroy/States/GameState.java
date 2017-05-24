@@ -79,6 +79,14 @@ public class GameState extends State implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+        // Left controller detection
+        if(controller.getLeftBounds().contains(screenX, screenY)){
+            System.out.println("LEFT");
+        }
+        // Right controller detection
+        if(controller.getRightBounds().contains(screenX, screenY)){
+            System.out.println("Right");
+        }
 
 
         return false;
