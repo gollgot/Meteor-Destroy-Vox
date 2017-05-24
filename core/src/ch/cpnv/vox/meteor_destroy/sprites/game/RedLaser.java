@@ -12,8 +12,13 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class RedLaser extends Sprite{
 
-    public RedLaser(){
+    private Player player;
+    private float velocity = Helpers.getHeightAdaptToResolution(5);
+    private boolean alive;
+
+    public RedLaser(Player player){
         super(new Texture("game/redLaser.png"));
+        this.player = player;
         init();
     }
 
@@ -21,10 +26,36 @@ public class RedLaser extends Sprite{
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2));
-        setY(Helpers.getHeightAdaptToResolution(500));
+        setX(player.getX() + (player.getWidth() / 2) - (getWidth() / 2));
+        setY(player.getY() + player.getHeight() + Helpers.getHeightAdaptToResolution(30));
+        alive = true;
     }
 
+    public void update() {
+        move();
+        checkCollision();
+    }
 
+    public void render(SpriteBatch sb) {
+        draw(sb);
+    }
 
+    private void move() {
+        setY(getY() + velocity);
+    }
+
+    private void checkCollision() {
+        // Go outside of the screen, without touch any meteor etc..
+        if(getY() >= Helpers.MOBILE_HEIGHT){
+            alive = false;
+        }
+    }
+
+    public boolean isAlive(){
+        return alive;
+    }
+
+    public void dispose() {
+        getTexture().dispose();
+    }
 }

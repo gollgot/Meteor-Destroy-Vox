@@ -43,7 +43,7 @@ public class GameState extends State implements InputProcessor{
         sb.begin();
         background.draw(sb);
         controller.render(sb);
-        player.draw(sb);
+        player.render(sb);
         sb.end();
     }
 
@@ -84,12 +84,14 @@ public class GameState extends State implements InputProcessor{
         // Left controller detection
         if(controller.getLeftBounds().contains(screenX, screenY)){
             player.setDirection("left");
-            System.out.println("LEFT");
         }
         // Right controller detection
         if(controller.getRightBounds().contains(screenX, screenY)){
             player.setDirection("right");
-            System.out.println("Right");
+        }
+        // Shoot controller detection
+        if(controller.getShootBounds().contains(screenX, screenY)){
+            player.shoot();
         }
 
         return false;
@@ -97,7 +99,11 @@ public class GameState extends State implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        player.setDirection("stop");
+        // If we touch up from another location as the ShootButton, we stop the player
+        // this way, we can shoot in movement
+        if(!controller.getShootBounds().contains(screenX, screenY)){
+            player.setDirection("stop");
+        }
         return false;
     }
 

@@ -14,7 +14,7 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 public class Controller{
 
     private Sprite left, right, shoot, weapon;
-    private Rectangle leftBounds, rightBounds;
+    private Rectangle leftBounds, rightBounds, shootBounds;
 
     public Controller(){
         init();
@@ -42,6 +42,7 @@ public class Controller{
         // !!! Carefull, Rectangle x-y is from top-left of the screen and sprite bottom left !!!
         leftBounds = new Rectangle(left.getX(), Helpers.MOBILE_HEIGHT - (left.getY()+left.getHeight()), left.getWidth(), left.getHeight());
         rightBounds = new Rectangle(right.getX(), Helpers.MOBILE_HEIGHT - (right.getY()+left.getHeight()), right.getWidth(), right.getHeight());
+        shootBounds = new Rectangle(shoot.getX(), Helpers.MOBILE_HEIGHT - (shoot.getY()+shoot.getHeight()), shoot.getWidth(), shoot.getHeight());
     }
 
     // Draw the sprites, called from GameState render method
@@ -65,5 +66,8 @@ public class Controller{
     }
     public Rectangle getRightBounds() {
         return rightBounds;
+    }
+    public Rectangle getShootBounds() {
+        return shootBounds;
     }
 }
