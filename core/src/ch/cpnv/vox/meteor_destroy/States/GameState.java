@@ -3,13 +3,17 @@ package ch.cpnv.vox.meteor_destroy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+
 import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Controller;
+import ch.cpnv.vox.meteor_destroy.sprites.game.Meteor;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
 import ch.cpnv.vox.meteor_destroy.sprites.game.RedLaser;
 
@@ -22,6 +26,8 @@ public class GameState extends State implements InputProcessor{
     private Background background;
     private Player player;
     private Controller controller;
+    public static ArrayList<Meteor> meteors;
+    private long start_time;
 
     public GameState(GameStateManager gsm) {
         super(gsm);
@@ -31,19 +37,35 @@ public class GameState extends State implements InputProcessor{
         background = new Background();
         player = new Player();
         controller =  new Controller();
+        // Built meteors
+        start_time =  System.currentTimeMillis();
+        meteors = new ArrayList<>();
+        buildMeteor();
     }
 
     @Override
     public void update(float dt) {
         player.update();
+        buildMeteor();
+        if(hasMeteor()){
+           for(Meteor meteor: meteors){
+               meteor.update();
+           }
+        }
+        removeMeteorIfNotAlive();
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
         background.draw(sb);
-        controller.render(sb);
         player.render(sb);
+        if(hasMeteor()){
+            for(Meteor meteor: meteors){
+                meteor.render(sb);
+            }
+        }
+        controller.render(sb);
         sb.end();
     }
 
@@ -52,7 +74,40 @@ public class GameState extends State implements InputProcessor{
         controller.dispose();
         background.getTexture().dispose();
         player.getTexture().dispose();
+        for(Meteor meteor: meteors){
+            meteor.dispose();
+        }
     }
+
+    // Each 2 seconds, build a new meteor
+    // We cannot do this in a thread because we can only create Sprite in the applicationThread who display OpenGL
+    private void buildMeteor() {
+        long end_time = System.currentTimeMillis();
+        if(end_time - start_time >= 2000){
+            meteors.add(new Meteor());
+            start_time = System.currentTimeMillis();
+        }
+    }
+
+    private boolean hasMeteor(){
+        if(meteors.size() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private void removeMeteorIfNotAlive() {
+        for (int i=0; i < meteors.size(); i++){
+            if(!meteors.get(i).isAlive()){
+                // Remove his texture (prevent memory, cpu leaks)
+                meteors.get(i).dispose();
+                // Remove from the list
+                meteors.remove(i);
+            }
+        }
+    }
+
 
     /*-------------------------------------------------------------------*/
 
