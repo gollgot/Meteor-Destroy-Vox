@@ -162,9 +162,10 @@ public class GameState extends State implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // If we touch up from another location as the ShootButton, we stop the player
-        // this way, we can shoot in movement
-        if(!controller.getShootBounds().contains(screenX, screenY)){
+        // If we touch up from another location as the ShootButton or change weapon button, we stop the player
+        // this way, we can shoot or change Weapon in movement
+        if(!controller.getShootBounds().contains(screenX, screenY) &&
+            !controller.getWeaponBounds().contains(screenX, screenY)){
             player.setDirection("stop");
         }
         return false;
