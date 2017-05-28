@@ -148,6 +148,14 @@ public class GameState extends State implements InputProcessor{
         if(controller.getShootBounds().contains(screenX, screenY)){
             player.shoot();
         }
+        // Change Weapon
+        if(controller.getWeaponBounds().contains(screenX, screenY)){
+            if(player.getLaserType() == "redLaser"){
+                player.setLaserType("greenLaser");
+            }else if(player.getLaserType() == "greenLaser"){
+                player.setLaserType("redLaser");
+            }
+        }
 
         return false;
     }

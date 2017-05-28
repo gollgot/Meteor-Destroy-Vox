@@ -17,6 +17,7 @@ public class Player extends Sprite {
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
     private ArrayList<RedLaser> allRedLasers; //(missiles)
+    private String laserType;
 
     public Player(){
         super(new Texture("game/player.png"));
@@ -30,6 +31,7 @@ public class Player extends Sprite {
         setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
         setY(Helpers.getHeightAdaptToResolution(300));
         // init array of redLaser
+        laserType = "redLaser";
         allRedLasers = new ArrayList<RedLaser>();
     }
 
@@ -102,7 +104,7 @@ public class Player extends Sprite {
     }
 
     public void shoot() {
-        allRedLasers.add(new RedLaser(this));
+        allRedLasers.add(new RedLaser(this, laserType));
     }
 
     // Very important ! Id the laser is dead, we remove it from the list, and we dispose (prevent memory leaks, cpu etc..)
@@ -114,5 +116,13 @@ public class Player extends Sprite {
                 allRedLasers.remove(i);
             }
         }
+    }
+
+    public String getLaserType() {
+        return laserType;
+    }
+
+    public void setLaserType(String laserType) {
+        this.laserType = laserType;
     }
 }

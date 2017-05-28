@@ -15,14 +15,24 @@ public class RedLaser extends Sprite{
     private Player player;
     private float velocity = Helpers.getHeightAdaptToResolution(8);
     private boolean alive;
+    private String type;
 
-    public RedLaser(Player player){
+    public RedLaser(Player player, String type){
         super(new Texture("game/redLaser.png"));
+        this.type = type;
         this.player = player;
         init();
     }
 
     private void init() {
+        if(type == "redLaser"){
+            setTexture(new Texture("game/redLaser.png"));
+        }else if(type == "greenLaser"){
+            setTexture(new Texture("game/greenLaser.png"));
+        }
+
+        //setTexture(new Texture("game/redLaser.png"));
+
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
