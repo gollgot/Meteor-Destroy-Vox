@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
  * Created by Loïc on 24.05.2017.
@@ -58,6 +59,24 @@ public class Laser extends Sprite{
         // Go outside of the screen, without touch any meteor etc..
         if(getY() >= Helpers.MOBILE_HEIGHT){
             alive = false;
+        }
+
+        // Collision with meteor
+        for(int i=0; i < GameState.meteors.size(); i++){
+            if(GameState.meteors.get(i).getBounds().contains(getX(), getY())){
+                // Laser is dead
+                alive = false;
+                // type redLaser : destroy the meteor
+                // type greenLaser : Deviate the meteor
+                switch(type){
+                    case "redLaser":
+                        GameState.meteors.get(i).dispose();
+                        GameState.meteors.remove(i);
+                        break;
+                    case "greenLaser":
+                        break;
+                }
+            }
         }
     }
 

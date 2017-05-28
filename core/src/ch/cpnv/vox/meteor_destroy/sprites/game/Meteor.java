@@ -3,6 +3,7 @@ package ch.cpnv.vox.meteor_destroy.sprites.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -17,6 +18,7 @@ public class Meteor extends Sprite {
     private float velocity = Helpers.getHeightAdaptToResolution(8);
     private boolean alive;
     private float angle;
+    private Rectangle bounds;
 
     public Meteor(){
         super(new Texture("game/meteor.png"));
@@ -33,11 +35,14 @@ public class Meteor extends Sprite {
         // Set the origin in center, this way when we rotate, we rotate from the center
         setOrigin(getWidth() / 2, getHeight() / 2);
         angle = (float) randomNumber(-3, 3);
+        // Set the bounds of the meteor for collision detection
+        bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
     public void update(){
         move();
         rotate(angle);
+        updateBounds();
         checkCollision();
     }
 
@@ -55,11 +60,19 @@ public class Meteor extends Sprite {
         return min + (rand.nextDouble() * (max - min));
     }
 
+    private void updateBounds() {
+        bounds = bounds.set(getX(), getY(), getWidth(), getHeight());
+    }
+
     private void checkCollision() {
         // Kill itself if it get out of the screen
         if((getY() + getHeight()) <= 0){
             alive = false;
         }
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
     }
 
     public void dispose(){

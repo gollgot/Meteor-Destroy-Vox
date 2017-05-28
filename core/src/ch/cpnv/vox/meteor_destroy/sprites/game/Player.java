@@ -109,7 +109,6 @@ public class Player extends Sprite {
 
     // Very important ! Id the laser is dead, we remove it from the list, and we dispose (prevent memory leaks, cpu etc..)
     private void removeLaserIfNotAlive() {
-        System.out.println("nb laser : "+ allLasers.size());
         for(int i = 0; i < allLasers.size(); i++){
             if(!allLasers.get(i).isAlive()){
                 allLasers.get(i).dispose();
