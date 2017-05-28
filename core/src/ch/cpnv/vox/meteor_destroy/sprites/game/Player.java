@@ -16,7 +16,7 @@ public class Player extends Sprite {
 
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
-    private ArrayList<RedLaser> allRedLasers; //(missiles)
+    private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
 
     public Player(){
@@ -32,7 +32,7 @@ public class Player extends Sprite {
         setY(Helpers.getHeightAdaptToResolution(300));
         // init array of redLaser
         laserType = "redLaser";
-        allRedLasers = new ArrayList<RedLaser>();
+        allLasers = new ArrayList<Laser>();
     }
 
     public void update(){
@@ -41,8 +41,8 @@ public class Player extends Sprite {
         // If we shoot on, one or more redLaser, we updated them
         if(hasShot()){
             removeLaserIfNotAlive();
-            for(RedLaser redLaser: allRedLasers){
-                redLaser.update();
+            for(Laser laser : allLasers){
+                laser.update();
             }
         }
     }
@@ -51,8 +51,8 @@ public class Player extends Sprite {
         draw(sb);
         // If we shoot on, one or more redLaser, we updated them
         if(hasShot()){
-            for(RedLaser redLaser: allRedLasers){
-                redLaser.render(sb);
+            for(Laser laser : allLasers){
+                laser.render(sb);
             }
         }
     }
@@ -96,7 +96,7 @@ public class Player extends Sprite {
     }
 
     private boolean hasShot(){
-        if(allRedLasers.size() > 0){
+        if(allLasers.size() > 0){
             return true;
         }else{
             return false;
@@ -104,16 +104,16 @@ public class Player extends Sprite {
     }
 
     public void shoot() {
-        allRedLasers.add(new RedLaser(this, laserType));
+        allLasers.add(new Laser(this, laserType));
     }
 
     // Very important ! Id the laser is dead, we remove it from the list, and we dispose (prevent memory leaks, cpu etc..)
     private void removeLaserIfNotAlive() {
-        System.out.println("nb laser : "+allRedLasers.size());
-        for(int i=0; i < allRedLasers.size(); i++){
-            if(!allRedLasers.get(i).isAlive()){
-                allRedLasers.get(i).dispose();
-                allRedLasers.remove(i);
+        System.out.println("nb laser : "+ allLasers.size());
+        for(int i = 0; i < allLasers.size(); i++){
+            if(!allLasers.get(i).isAlive()){
+                allLasers.get(i).dispose();
+                allLasers.remove(i);
             }
         }
     }

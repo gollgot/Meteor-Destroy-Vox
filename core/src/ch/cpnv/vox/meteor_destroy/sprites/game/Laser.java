@@ -10,14 +10,14 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
  * Created by Loïc on 24.05.2017.
  */
 
-public class RedLaser extends Sprite{
+public class Laser extends Sprite{
 
     private Player player;
     private float velocity = Helpers.getHeightAdaptToResolution(8);
     private boolean alive;
     private String type;
 
-    public RedLaser(Player player, String type){
+    public Laser(Player player, String type){
         super(new Texture("game/redLaser.png"));
         this.type = type;
         this.player = player;
