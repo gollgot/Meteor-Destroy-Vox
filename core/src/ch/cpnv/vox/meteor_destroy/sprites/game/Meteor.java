@@ -15,7 +15,8 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 
 public class Meteor extends Sprite {
 
-    private float velocity = Helpers.getHeightAdaptToResolution(8);
+    private float velocityY = Helpers.getHeightAdaptToResolution(8);
+    private float velocityX = 0;
     private boolean alive;
     private float angle;
     private Rectangle bounds;
@@ -51,7 +52,8 @@ public class Meteor extends Sprite {
     }
 
     private void move() {
-        setY(getY() - velocity);
+        setY(getY() - velocityY);
+        setX(getX() + velocityX);
     }
 
     // Return double, this way it works with negative number
@@ -69,6 +71,10 @@ public class Meteor extends Sprite {
         if((getY() + getHeight()) <= 0){
             alive = false;
         }
+    }
+
+    public void setVelocityX(float velocityX) {
+        this.velocityX = velocityX;
     }
 
     public Rectangle getBounds() {

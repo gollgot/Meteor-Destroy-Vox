@@ -74,6 +74,16 @@ public class Laser extends Sprite{
                         GameState.meteors.remove(i);
                         break;
                     case "greenLaser":
+                        // Case of the green laser touch the Right part of the meteor
+                        if(getX()+(getWidth()/2) >= GameState.meteors.get(i).getX()+(GameState.meteors.get(i).getWidth()/2)){
+                            // Deviate on left side
+                            GameState.meteors.get(i).setVelocityX(Helpers.getWidthAdaptToResolution(-4));
+                        }
+                        // Else, left part
+                        else{
+                            // Deviate on right side
+                            GameState.meteors.get(i).setVelocityX(Helpers.getWidthAdaptToResolution(4));
+                        }
                         break;
                 }
             }
