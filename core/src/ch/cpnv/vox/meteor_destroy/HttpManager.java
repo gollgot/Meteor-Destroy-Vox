@@ -43,7 +43,7 @@ public class HttpManager implements Net.HttpResponseListener{
     public void failed(Throwable t) {
         finish = true;
         error = true;
-        errorMessage = "Impossible de récupérer le vocabulaire, veuillez vérifier votre connexion internet";
+        errorMessage = "Erreur :\nImpossible de récupérer\nle vocabulaire,\nveuillez vérifier\nvotre connexion internet";
     }
 
     @Override
