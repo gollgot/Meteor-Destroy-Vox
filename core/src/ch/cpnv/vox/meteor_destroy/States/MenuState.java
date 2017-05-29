@@ -92,9 +92,10 @@ public class MenuState extends State implements InputProcessor{
         title.getTexture().dispose();
         if(vocError == null) {
             btnPlay.getTexture().dispose();
+        }else{
+            errorFont.dispose();
         }
         audio.dispose();
-        errorFont.dispose();
     }
 
     /*-------------------------------------------------------------------*/
