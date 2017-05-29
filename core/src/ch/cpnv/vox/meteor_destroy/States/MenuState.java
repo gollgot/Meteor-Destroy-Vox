@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.MeteorDestroy;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 import ch.cpnv.vox.meteor_destroy.sprites.menu.PlayButton;
 import ch.cpnv.vox.meteor_destroy.sprites.menu.Title;
@@ -27,16 +28,21 @@ public class MenuState extends State implements InputProcessor{
     private Title title;
     private PlayButton btnPlay;
     private Music audio;
+    private String vocError;
 
-    public MenuState(GameStateManager gsm) {
+    public MenuState(GameStateManager gsm, String vocError) {
         super(gsm);
+        this.vocError = vocError;
         // Mandatory to use the InputProcessor
         Gdx.input.setInputProcessor(this);
+        System.out.println(vocError);
 
         // init Sprite
         background = new Background();
+        if(vocError == null){
+            btnPlay = new PlayButton();
+        }
         title = new Title();
-        btnPlay = new PlayButton();
         initAudio();
     }
 
@@ -56,7 +62,9 @@ public class MenuState extends State implements InputProcessor{
         sb.begin();
         background.draw(sb);
         title.draw(sb);
-        btnPlay.draw(sb);
+        if(vocError == null) {
+            btnPlay.draw(sb);
+        }
         sb.end();
     }
 
@@ -64,7 +72,9 @@ public class MenuState extends State implements InputProcessor{
     public void dispose() {
         background.getTexture().dispose();
         title.getTexture().dispose();
-        btnPlay.getTexture().dispose();
+        if(vocError == null) {
+            btnPlay.getTexture().dispose();
+        }
         audio.dispose();
     }
 
@@ -92,14 +102,16 @@ public class MenuState extends State implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // I check if the play button bounds (rectangle) contains our Touch X,Y
-        if(btnPlay.getBounds().contains(screenX, screenY)){
-            // Delete the first state and add new one
-            audio.stop();
-            gsm.pop();
-            gsm.push(new GameState(gsm));
-            // dispose all assets elements, to prevent memory leaks
-            this.dispose();
+        if (vocError == null){
+            // I check if the play button bounds (rectangle) contains our Touch X,Y
+            if (btnPlay.getBounds().contains(screenX, screenY)) {
+                // Delete the first state and add new one
+                audio.stop();
+                gsm.pop();
+                gsm.push(new GameState(gsm));
+                // dispose all assets elements, to prevent memory leaks
+                this.dispose();
+            }
         }
         return false;
     }
