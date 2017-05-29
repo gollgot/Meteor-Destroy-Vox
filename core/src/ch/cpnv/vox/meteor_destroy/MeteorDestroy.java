@@ -14,9 +14,13 @@ public class MeteorDestroy extends ApplicationAdapter{
 
     private GameStateManager gsm;
     private SpriteBatch batch;
+	private HttpManager httpManager;
 	
 	@Override
 	public void create () {
+        // get the vocs
+        httpManager = new HttpManager();
+        httpManager.getVocs();
 		// Mandatory, we say that we will use the physical backkey of the phone
 		Gdx.input.setCatchBackKey(true);
 

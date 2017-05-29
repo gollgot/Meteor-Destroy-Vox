@@ -38,6 +38,7 @@ public class GameState extends State implements InputProcessor{
         buildMeteor();
     }
 
+
     @Override
     public void update(float dt) {
         player.update();
