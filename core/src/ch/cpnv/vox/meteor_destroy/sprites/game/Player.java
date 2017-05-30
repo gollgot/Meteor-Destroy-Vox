@@ -1,12 +1,19 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.ArrayList;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.Model.Word;
+import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 
 /**
  * Created by Loic.DESSAULES on 24.05.2017.
@@ -18,6 +25,10 @@ public class Player extends Sprite {
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
     private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
+    private BitmapFont wordLabel;
+    private Word wordToFind;
+    private GlyphLayout glyphLayout;
+    private BitmapFont font;
 
     public Player(){
         super(new Texture("game/player.png"));
@@ -29,10 +40,28 @@ public class Player extends Sprite {
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
         setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
-        setY(Helpers.getHeightAdaptToResolution(300));
+        setY(Helpers.getHeightAdaptToResolution(350));
         // init array of redLaser
         laserType = "redLaser";
         allLasers = new ArrayList<Laser>();
+        // Get a word to find
+        wordToFind = VocabularyManager.getWordToFind();
+        // init the font
+        initFont();
+    }
+
+    private void initFont() {
+        font = new BitmapFont();
+        /*FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.characters = "abcdefghijklmnopqrstuvwxyzàéèêëùABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+        FreeTypeFontGenerator generator = null;
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        parameter.size = (int) Helpers.getHeightAdaptToResolution(100);
+        parameter.color = Color.WHITE;
+        wordLabel = generator.generateFont(parameter);*/
+        glyphLayout = new GlyphLayout();
+        font.getData().scale(3);
+        glyphLayout.setText(font,wordToFind.getValue1());
     }
 
     public void update(){
@@ -55,6 +84,7 @@ public class Player extends Sprite {
                 laser.render(sb);
             }
         }
+        font.draw(sb, glyphLayout, (Helpers.MOBILE_WIDTH / 2) - (glyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(10));
     }
 
     private void checkCollision() {
