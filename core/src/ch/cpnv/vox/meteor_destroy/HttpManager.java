@@ -26,7 +26,8 @@ public class HttpManager implements Net.HttpResponseListener{
 
     public void getVocs(){
         //String url = "http://192.168.0.51/api/v1/vocs/1";
-        String url = "http://172.17.102.188/api/v1/vocs/1";
+        //String url = "http://172.17.102.188/api/v1/vocs/1";
+        String url = "http://avia-sion.ch/api-test/json.php";
         request = new Net.HttpRequest();
         request.setMethod(Net.HttpMethods.GET);
         request.setTimeOut(1500);

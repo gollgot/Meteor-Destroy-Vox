@@ -23,12 +23,14 @@ public class Player extends Sprite {
 
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
+
     private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
-    private BitmapFont wordLabel;
+
     private Word wordToFind;
-    private GlyphLayout glyphLayout;
+
     private BitmapFont font;
+    private GlyphLayout glyphLayout;
 
     public Player(){
         super(new Texture("game/player.png"));
@@ -51,16 +53,16 @@ public class Player extends Sprite {
     }
 
     private void initFont() {
-        font = new BitmapFont();
-        /*FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = "abcdefghijklmnopqrstuvwxyzàéèêëùABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
-        FreeTypeFontGenerator generator = null;
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+
         parameter.size = (int) Helpers.getHeightAdaptToResolution(100);
+        parameter.borderWidth = 1;
+        parameter.borderColor = Color.BLACK;
         parameter.color = Color.WHITE;
-        wordLabel = generator.generateFont(parameter);*/
+        font = generator.generateFont(parameter);
+        // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
         glyphLayout = new GlyphLayout();
-        font.getData().scale(3);
         glyphLayout.setText(font,wordToFind.getValue1());
     }
 
@@ -84,7 +86,8 @@ public class Player extends Sprite {
                 laser.render(sb);
             }
         }
-        font.draw(sb, glyphLayout, (Helpers.MOBILE_WIDTH / 2) - (glyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(10));
+        // Draw the word to search
+        font.draw(sb, glyphLayout, (Helpers.MOBILE_WIDTH / 2) - (glyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(20));
     }
 
     private void checkCollision() {
