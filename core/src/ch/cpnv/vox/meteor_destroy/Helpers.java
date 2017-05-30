@@ -17,6 +17,7 @@ public class Helpers {
     public static final int MOBILE_HEIGHT = Gdx.graphics.getHeight();
 
     public static BitmapFont fontPlayerWordToSearch;
+    public static BitmapFont fontMeteorWordTranslate;
 
     /*
      * All the assets images are defined for the max resolution I chose: 1440px width x 2560px height
@@ -38,6 +39,7 @@ public class Helpers {
     }
 
     static public void loadPlayerWordToSearchFont() {
+        // PlayerWordToSearchFont
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
 
@@ -46,6 +48,16 @@ public class Helpers {
         parameter.borderColor = Color.BLACK;
         parameter.color = Color.WHITE;
         fontPlayerWordToSearch = generator.generateFont(parameter);
+
+        // MeteorWordTranslateFont
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+
+        parameter2.size = (int) Helpers.getHeightAdaptToResolution(70);
+        parameter2.borderWidth = 1;
+        parameter2.borderColor = Color.BLACK;
+        parameter2.color = Color.WHITE;
+        fontMeteorWordTranslate = generator2.generateFont(parameter2);
     }
 
 }

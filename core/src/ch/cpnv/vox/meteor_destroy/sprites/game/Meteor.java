@@ -1,13 +1,17 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 
 /**
  * Created by Loïc on 25.05.2017.
@@ -20,6 +24,12 @@ public class Meteor extends Sprite {
     private boolean alive;
     private float angle;
     private Rectangle bounds;
+
+    private String translateWord;
+    private Vector2 translateWordPosition;
+
+    private BitmapFont font;
+    private GlyphLayout glyphLayout;
 
     public Meteor(){
         super(new Texture("game/meteor.png"));
@@ -38,6 +48,18 @@ public class Meteor extends Sprite {
         angle = (float) randomNumber(-3, 3);
         // Set the bounds of the meteor for collision detection
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+        // Get a random translateWord
+        translateWord = VocabularyManager.getRandomTranslateWord();
+        initFont();
+        translateWordPosition = new Vector2((getX() + getWidth() / 2) - (glyphLayout.width / 2), getY() + getHeight() + Helpers.getHeightAdaptToResolution(80));
+    }
+
+    private void initFont() {
+        // get the font which preloaded
+        font = Helpers.fontMeteorWordTranslate;
+        // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
+        glyphLayout = new GlyphLayout();
+        glyphLayout.setText(font, translateWord);
     }
 
     public void update(){
@@ -49,11 +71,14 @@ public class Meteor extends Sprite {
 
     public void render(SpriteBatch sb) {
         draw(sb);
+        // Draw the translate word above the meteor
+        font.draw(sb, glyphLayout, translateWordPosition.x, translateWordPosition.y);
     }
 
     private void move() {
         setY(getY() - velocityY);
         setX(getX() + velocityX);
+        translateWordPosition.set((getX() + getWidth() / 2) - (glyphLayout.width / 2), getY() + getHeight() + Helpers.getHeightAdaptToResolution(80));
     }
 
     // Return double, this way it works with negative number

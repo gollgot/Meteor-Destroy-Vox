@@ -14,12 +14,12 @@ public class VocabularyManager {
 
     public static Word getWordToFind(){
         ArrayList<Word> words = MeteorDestroy.mVocabulary.getWords();
-        return words.get(randomNumber(0, words.size()));
+        return words.get(randomNumber(0, words.size()-1));
     }
 
     public static String getRandomTranslateWord(){
         ArrayList<Word> words = MeteorDestroy.mVocabulary.getWords();
-        return words.get(randomNumber(0, words.size())).getValue2();
+        return words.get(randomNumber(0, words.size()-1)).getValue2();
     }
 
     private static int randomNumber(int min, int max){
