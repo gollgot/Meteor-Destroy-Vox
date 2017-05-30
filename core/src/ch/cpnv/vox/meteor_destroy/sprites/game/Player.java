@@ -53,14 +53,8 @@ public class Player extends Sprite {
     }
 
     private void initFont() {
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
-
-        parameter.size = (int) Helpers.getHeightAdaptToResolution(100);
-        parameter.borderWidth = 1;
-        parameter.borderColor = Color.BLACK;
-        parameter.color = Color.WHITE;
-        font = generator.generateFont(parameter);
+        // get the font which preloaded
+        font = Helpers.fontPlayerWordToSearch;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
         glyphLayout = new GlyphLayout();
         glyphLayout.setText(font,wordToFind.getValue1());

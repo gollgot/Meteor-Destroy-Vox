@@ -1,7 +1,11 @@
 package ch.cpnv.vox.meteor_destroy;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
  * Created by Loïc on 21.05.2017.
@@ -11,6 +15,8 @@ public class Helpers {
 
     public static final int MOBILE_WIDTH = Gdx.graphics.getWidth();
     public static final int MOBILE_HEIGHT = Gdx.graphics.getHeight();
+
+    public static BitmapFont fontPlayerWordToSearch;
 
     /*
      * All the assets images are defined for the max resolution I chose: 1440px width x 2560px height
@@ -29,6 +35,17 @@ public class Helpers {
         int referenceHeight = 2560;
         float newHeight = heightToChange * Gdx.graphics.getHeight() / referenceHeight;
         return newHeight;
+    }
+
+    static public void loadPlayerWordToSearchFont() {
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+
+        parameter.size = (int) Helpers.getHeightAdaptToResolution(100);
+        parameter.borderWidth = 1;
+        parameter.borderColor = Color.BLACK;
+        parameter.color = Color.WHITE;
+        fontPlayerWordToSearch = generator.generateFont(parameter);
     }
 
 }
