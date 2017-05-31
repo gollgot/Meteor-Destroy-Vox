@@ -48,7 +48,12 @@ public class Hud {
         lives.add(life3);
     }
 
+    public void update(){
+        nbOfLife = Player.life;
+    }
+
     public void render(SpriteBatch sb) {
+        // Display only lives we have
         for(int i=0; i < nbOfLife; i++){
            lives.get(i).draw(sb);
         }

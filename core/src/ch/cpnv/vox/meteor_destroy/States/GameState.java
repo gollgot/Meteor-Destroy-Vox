@@ -52,6 +52,7 @@ public class GameState extends State implements InputProcessor{
            }
         }
         removeMeteorIfNotAlive();
+        hud.update();
     }
 
     @Override
