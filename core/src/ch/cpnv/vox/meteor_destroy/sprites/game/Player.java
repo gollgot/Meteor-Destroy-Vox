@@ -23,6 +23,7 @@ public class Player extends Sprite {
 
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
+    public  static int life = 3;
 
     private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
