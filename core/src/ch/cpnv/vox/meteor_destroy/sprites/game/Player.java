@@ -1,12 +1,19 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.ArrayList;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.Model.Word;
+import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 
 /**
  * Created by Loic.DESSAULES on 24.05.2017.
@@ -16,8 +23,14 @@ public class Player extends Sprite {
 
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
+
     private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
+
+    private Word wordToFind;
+
+    private BitmapFont font;
+    private GlyphLayout glyphLayout;
 
     public Player(){
         super(new Texture("game/player.png"));
@@ -29,10 +42,22 @@ public class Player extends Sprite {
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
         setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
-        setY(Helpers.getHeightAdaptToResolution(300));
+        setY(Helpers.getHeightAdaptToResolution(350));
         // init array of redLaser
         laserType = "redLaser";
         allLasers = new ArrayList<Laser>();
+        // Get a word to find
+        wordToFind = VocabularyManager.getWordToFind();
+        // init the font
+        initFont();
+    }
+
+    private void initFont() {
+        // get the font which preloaded
+        font = Helpers.fontPlayerWordToSearch;
+        // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
+        glyphLayout = new GlyphLayout();
+        glyphLayout.setText(font,wordToFind.getValue1());
     }
 
     public void update(){
@@ -55,6 +80,8 @@ public class Player extends Sprite {
                 laser.render(sb);
             }
         }
+        // Draw the word to search
+        font.draw(sb, glyphLayout, (Helpers.MOBILE_WIDTH / 2) - (glyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(20));
     }
 
     private void checkCollision() {

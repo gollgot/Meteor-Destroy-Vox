@@ -38,6 +38,7 @@ public class GameState extends State implements InputProcessor{
         buildMeteor();
     }
 
+
     @Override
     public void update(float dt) {
         player.update();
@@ -111,7 +112,7 @@ public class GameState extends State implements InputProcessor{
         // Touch the physical back key of the phone
         if(keycode == Input.Keys.BACK){
             gsm.pop();
-            gsm.push(new MenuState(gsm));
+            gsm.push(new MenuState(gsm, null));
             // dispose all assets elements, to prevent memory leaks
             this.dispose();
         }

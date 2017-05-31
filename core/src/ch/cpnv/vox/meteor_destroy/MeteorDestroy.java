@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ch.cpnv.vox.meteor_destroy.Model.Vocabulary;
 import ch.cpnv.vox.meteor_destroy.states.GameState;
 import ch.cpnv.vox.meteor_destroy.states.GameStateManager;
 import ch.cpnv.vox.meteor_destroy.states.MenuState;
@@ -14,9 +15,15 @@ public class MeteorDestroy extends ApplicationAdapter{
 
     private GameStateManager gsm;
     private SpriteBatch batch;
+	private HttpManager httpManager;
+    public static Vocabulary mVocabulary;
+    private String vocError = null;
 	
 	@Override
 	public void create () {
+        // Get the vocs and preload componements we needs before (like fonts)
+        getVocs();
+        Helpers.loadFonts();
 		// Mandatory, we say that we will use the physical backkey of the phone
 		Gdx.input.setCatchBackKey(true);
 
@@ -25,7 +32,7 @@ public class MeteorDestroy extends ApplicationAdapter{
         Gdx.gl.glClearColor(1, 1, 1, 1);
 
         // Added the first state on the states stack : Menu state
-        gsm.push(new MenuState(gsm));
+        gsm.push(new MenuState(gsm, vocError));
 	}
 
 	@Override
@@ -41,4 +48,22 @@ public class MeteorDestroy extends ApplicationAdapter{
 	public void dispose () {
 		batch.dispose();
 	}
+
+
+    private void getVocs() {
+        // get the vocs
+        httpManager = new HttpManager();
+        httpManager.getVocs();
+        // Freeze the app while we get the vocs
+        while(!httpManager.isFinish()){
+        }
+        // error => Get the error Message
+        // no error => Get the Vocabulary
+        if(httpManager.hasError()){
+            vocError = httpManager.getErrorMessage();
+            System.out.println(vocError);
+        }else{
+            mVocabulary = httpManager.getVocabulary();
+        }
+    }
 }
