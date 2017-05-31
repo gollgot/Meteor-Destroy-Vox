@@ -38,7 +38,7 @@ public class Helpers {
         return newHeight;
     }
 
-    static public void loadPlayerWordToSearchFont() {
+    static public void loadFonts() {
         // PlayerWordToSearchFont
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));

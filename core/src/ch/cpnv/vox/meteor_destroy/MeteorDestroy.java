@@ -23,7 +23,7 @@ public class MeteorDestroy extends ApplicationAdapter{
 	public void create () {
         // Get the vocs and preload componements we needs before (like fonts)
         getVocs();
-        Helpers.loadPlayerWordToSearchFont();
+        Helpers.loadFonts();
 		// Mandatory, we say that we will use the physical backkey of the phone
 		Gdx.input.setCatchBackKey(true);
 
