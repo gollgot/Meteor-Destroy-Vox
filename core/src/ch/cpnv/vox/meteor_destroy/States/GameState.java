@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Controller;
+import ch.cpnv.vox.meteor_destroy.sprites.game.Hud;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Meteor;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
 
@@ -21,6 +22,7 @@ public class GameState extends State implements InputProcessor{
     private Background background;
     private Player player;
     private Controller controller;
+    private Hud hud;
     public static ArrayList<Meteor> meteors;
     private long start_time;
 
@@ -32,6 +34,7 @@ public class GameState extends State implements InputProcessor{
         background = new Background();
         player = new Player();
         controller =  new Controller();
+        hud = new Hud();
         // Built meteors
         start_time =  System.currentTimeMillis();
         meteors = new ArrayList<>();
@@ -49,6 +52,7 @@ public class GameState extends State implements InputProcessor{
            }
         }
         removeMeteorIfNotAlive();
+        hud.update();
     }
 
     @Override
@@ -62,11 +66,13 @@ public class GameState extends State implements InputProcessor{
             }
         }
         controller.render(sb);
+        hud.render(sb);
         sb.end();
     }
 
     @Override
     public void dispose() {
+        hud.dispose();
         controller.dispose();
         background.getTexture().dispose();
         player.getTexture().dispose();

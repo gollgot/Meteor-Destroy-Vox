@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.Model.Word;
 import ch.cpnv.vox.meteor_destroy.VocabularyManager;
+import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
  * Created by Loic.DESSAULES on 24.05.2017.
@@ -23,6 +24,7 @@ public class Player extends Sprite {
 
     private String direction = "stop";
     private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
+    public  static int life;
 
     private ArrayList<Laser> allLasers; //(missiles)
     private String laserType;
@@ -38,6 +40,7 @@ public class Player extends Sprite {
     }
 
     private void init() {
+        life = 3;
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
@@ -97,6 +100,20 @@ public class Player extends Sprite {
             // Stop the player
             setX(Helpers.MOBILE_WIDTH - getWidth());
             vPlayer = 0;
+        }
+
+        // Collision with meteor
+        for(int i = 0; i < GameState.meteors.size(); i++){
+            // If the meteor touch the left, middle or right side of our player
+            if(GameState.meteors.get(i).getBounds().contains(getX(), getY()) ||
+                GameState.meteors.get(i).getBounds().contains(getX() + getWidth()/2, getY())||
+                GameState.meteors.get(i).getBounds().contains(getX() + getWidth(), getY())
+            ){
+                // Destroy the meteor and remove a life
+                GameState.meteors.get(i).dispose();
+                GameState.meteors.remove(i);
+                life--;
+            }
         }
     }
 
