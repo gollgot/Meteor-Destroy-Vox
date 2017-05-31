@@ -1,6 +1,8 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -16,6 +18,7 @@ import ch.cpnv.vox.meteor_destroy.sprites.hud.Life;
 public class Hud {
 
     private int nbOfLife;
+    public  static int score;
 
     private ArrayList<Life> lives;
     private Life life1;
@@ -25,11 +28,15 @@ public class Hud {
     private float marginX = Helpers.getWidthAdaptToResolution(40);
     private float marginY = Helpers.getHeightAdaptToResolution(40);
 
+    private BitmapFont font;
+    private GlyphLayout glyphLayout;
+
     public Hud (){
         init();
     }
 
     private void init(){
+        score = 0;
         // Init lives
         lives = new ArrayList();
         this.nbOfLife = Player.life;
@@ -46,10 +53,19 @@ public class Hud {
         lives.add(life1);
         lives.add(life2);
         lives.add(life3);
+        initFont();
+    }
+
+    private void initFont() {
+        // get the font which preloaded
+        font = Helpers.fontMeteorWordTranslate;
+        // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
+        glyphLayout = new GlyphLayout();
     }
 
     public void update(){
         nbOfLife = Player.life;
+        glyphLayout.setText(font, String.valueOf(score));
     }
 
     public void render(SpriteBatch sb) {
@@ -57,6 +73,8 @@ public class Hud {
         for(int i=0; i < nbOfLife; i++){
            lives.get(i).draw(sb);
         }
+        // Display the score
+        font.draw(sb, glyphLayout, Helpers.MOBILE_WIDTH - glyphLayout.width - marginX, Helpers.MOBILE_HEIGHT - glyphLayout.height);
     }
 
     public void dispose(){
