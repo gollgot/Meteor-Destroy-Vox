@@ -33,7 +33,6 @@ public class MenuState extends State implements InputProcessor{
         this.vocError = vocError;
         // Mandatory to use the InputProcessor
         Gdx.input.setInputProcessor(this);
-        System.out.println(vocError);
 
         // init Sprite
         background = new Background();
