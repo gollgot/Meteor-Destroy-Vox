@@ -72,6 +72,7 @@ public class Laser extends Sprite{
                     case "redLaser":
                         GameState.meteors.get(i).dispose();
                         GameState.meteors.remove(i);
+                        Hud.score += 25;
                         break;
                     case "greenLaser":
                         // Case of the green laser touch the Right part of the meteor

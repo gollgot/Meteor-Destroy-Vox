@@ -113,6 +113,7 @@ public class Player extends Sprite {
                 GameState.meteors.get(i).dispose();
                 GameState.meteors.remove(i);
                 life--;
+                Hud.score -= 50;
             }
         }
     }
