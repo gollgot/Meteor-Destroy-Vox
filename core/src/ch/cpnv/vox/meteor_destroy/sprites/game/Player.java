@@ -169,4 +169,13 @@ public class Player extends Sprite {
     public void setLaserType(String laserType) {
         this.laserType = laserType;
     }
+
+    public Word getWordToFind() {
+        return wordToFind;
+    }
+
+    public void setWordToFind(Word wordToFind) {
+        this.wordToFind = wordToFind;
+        glyphLayout.setText(font, wordToFind.getValue1());
+    }
 }

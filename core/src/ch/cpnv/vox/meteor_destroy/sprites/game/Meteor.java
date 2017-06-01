@@ -113,4 +113,8 @@ public class Meteor extends Sprite {
     public boolean isAlive() {
         return alive;
     }
+
+    public String getTranslateWord() {
+        return translateWord;
+    }
 }

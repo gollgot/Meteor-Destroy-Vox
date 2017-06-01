@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
+import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
@@ -70,9 +71,18 @@ public class Laser extends Sprite{
                 // type greenLaser : Deviate the meteor
                 switch(type){
                     case "redLaser":
+                        // We have to shoot the good meteor word, I check that
+                        if(player.getWordToFind().getValue2() == GameState.meteors.get(i).getTranslateWord()){
+                            Hud.score += 25;
+                            // We shot the good word, we generate a new one
+                            player.setWordToFind(VocabularyManager.getWordToFind());
+                        }else {
+                            player.life--;
+                            Hud.score -= 50;
+                        }
+                        // Destroy the meteor
                         GameState.meteors.get(i).dispose();
                         GameState.meteors.remove(i);
-                        Hud.score += 25;
                         break;
                     case "greenLaser":
                         // Case of the green laser touch the Right part of the meteor
