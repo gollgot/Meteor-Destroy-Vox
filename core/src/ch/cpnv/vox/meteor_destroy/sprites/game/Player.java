@@ -109,6 +109,8 @@ public class Player extends Sprite {
                 GameState.meteors.get(i).getBounds().contains(getX() + getWidth()/2, getY())||
                 GameState.meteors.get(i).getBounds().contains(getX() + getWidth(), getY())
             ){
+                // Play sound of explosion
+                GameState.playExplosionSound();
                 // Destroy the meteor and remove a life
                 GameState.meteors.get(i).dispose();
                 GameState.meteors.remove(i);

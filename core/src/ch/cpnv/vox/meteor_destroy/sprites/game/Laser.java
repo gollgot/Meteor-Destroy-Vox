@@ -65,6 +65,8 @@ public class Laser extends Sprite{
         // Collision with meteor
         for(int i=0; i < GameState.meteors.size(); i++){
             if(GameState.meteors.get(i).getBounds().contains(getX(), getY())){
+                // Play sound of explosion
+                GameState.playExplosionSound();
                 // Laser is dead
                 alive = false;
                 // type redLaser : destroy the meteor

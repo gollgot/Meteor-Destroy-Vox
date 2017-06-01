@@ -3,6 +3,7 @@ package ch.cpnv.vox.meteor_destroy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class GameState extends State implements InputProcessor{
     private Player player;
     private Controller controller;
     private Hud hud;
+    private Music laserSound;
+    private static Music explosionSound;
     public static ArrayList<Meteor> meteors;
     private long start_time;
 
@@ -35,12 +38,13 @@ public class GameState extends State implements InputProcessor{
         player = new Player();
         controller =  new Controller();
         hud = new Hud();
+        laserSound = Gdx.audio.newMusic(Gdx.files.internal("game/laser.ogg"));
+        explosionSound = Gdx.audio.newMusic(Gdx.files.internal("game/explosion.ogg"));
         // Built meteors
         start_time =  System.currentTimeMillis();
         meteors = new ArrayList<>();
         buildMeteor();
     }
-
 
     @Override
     public void update(float dt) {
@@ -110,6 +114,10 @@ public class GameState extends State implements InputProcessor{
         }
     }
 
+    public static void playExplosionSound(){
+        explosionSound.play();
+    }
+
 
     /*-------------------------------------------------------------------*/
 
@@ -148,6 +156,7 @@ public class GameState extends State implements InputProcessor{
         }
         // Shoot controller detection
         if(controller.getShootBounds().contains(screenX, screenY)){
+            laserSound.play();
             player.shoot();
         }
         // Change Weapon
