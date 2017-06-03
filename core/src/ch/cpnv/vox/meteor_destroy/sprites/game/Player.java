@@ -57,7 +57,7 @@ public class Player extends Sprite {
 
     private void initFont() {
         // get the font which preloaded
-        font = Helpers.fontPlayerWordToSearch;
+        font = Helpers.openSans_100;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
         glyphLayout = new GlyphLayout();
         glyphLayout.setText(font,wordToFind.getValue1());

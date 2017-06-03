@@ -58,7 +58,7 @@ public class Hud {
 
     private void initFont() {
         // get the font which preloaded
-        font = Helpers.fontMeteorWordTranslate;
+        font = Helpers.openSans_70;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
         glyphLayout = new GlyphLayout();
     }

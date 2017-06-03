@@ -16,8 +16,9 @@ public class Helpers {
     public static final int MOBILE_WIDTH = Gdx.graphics.getWidth();
     public static final int MOBILE_HEIGHT = Gdx.graphics.getHeight();
 
-    public static BitmapFont fontPlayerWordToSearch;
-    public static BitmapFont fontMeteorWordTranslate;
+    public static BitmapFont openSans_100;
+    public static BitmapFont openSans_70;
+    public static BitmapFont kenVector_150;
 
     /*
      * All the assets images are defined for the max resolution I chose: 1440px width x 2560px height
@@ -39,7 +40,7 @@ public class Helpers {
     }
 
     static public void loadFonts() {
-        // PlayerWordToSearchFont
+        // openSans_100
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
 
@@ -47,7 +48,7 @@ public class Helpers {
         parameter.borderWidth = 1;
         parameter.borderColor = Color.BLACK;
         parameter.color = Color.WHITE;
-        fontPlayerWordToSearch = generator.generateFont(parameter);
+        openSans_100 = generator.generateFont(parameter);
 
         // MeteorWordTranslateFont
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -57,7 +58,17 @@ public class Helpers {
         parameter2.borderWidth = 1;
         parameter2.borderColor = Color.BLACK;
         parameter2.color = Color.WHITE;
-        fontMeteorWordTranslate = generator2.generateFont(parameter2);
+        openSans_70 = generator2.generateFont(parameter2);
+
+        // kenVector_150
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator generator3 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+
+        parameter3.size = (int) Helpers.getHeightAdaptToResolution(100);
+        parameter3.borderWidth = 1;
+        parameter3.borderColor = Color.BLACK;
+        parameter3.color = Color.WHITE;
+        kenVector_150 = generator3.generateFont(parameter3);
     }
 
 }

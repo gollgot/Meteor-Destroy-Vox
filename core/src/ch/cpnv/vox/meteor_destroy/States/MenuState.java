@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -27,6 +28,7 @@ public class MenuState extends State implements InputProcessor{
     private Music audio;
     private String vocError;
     private BitmapFont errorFont;
+    private GlyphLayout glyphLayout;
 
     public MenuState(GameStateManager gsm, String vocError) {
         super(gsm);
@@ -46,13 +48,11 @@ public class MenuState extends State implements InputProcessor{
     }
 
     private void initFont() {
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = "abcdefghijklmnopqrstuvwxyzàéèêëùABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
-        FreeTypeFontGenerator generator = null;
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
-        parameter.size = (int) Helpers.getHeightAdaptToResolution(100);
-        parameter.color = Color.WHITE;
-        errorFont = generator.generateFont(parameter);
+        // get the font which preloaded
+        errorFont = Helpers.openSans_100;
+        // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
+        glyphLayout = new GlyphLayout();
+        glyphLayout.setText(errorFont, vocError);
     }
 
     private void initAudio() {
