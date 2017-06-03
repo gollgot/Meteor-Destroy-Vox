@@ -21,7 +21,7 @@ import ch.cpnv.vox.meteor_destroy.sprites.menu.Title;
 
 public class MenuState extends State implements InputProcessor{
 
-    private Sprite background;
+    private Background background;
     private Title title;
     private PlayButton btnPlay;
     private Music audio;
@@ -31,7 +31,7 @@ public class MenuState extends State implements InputProcessor{
     public MenuState(GameStateManager gsm, String vocError) {
         super(gsm);
         this.vocError = vocError;
-        // Mandatory to use the InputProcessor
+        // Mandatory to use the InputProcessor on this current state
         Gdx.input.setInputProcessor(this);
 
         // init Sprite
@@ -85,8 +85,6 @@ public class MenuState extends State implements InputProcessor{
         title.getTexture().dispose();
         if(vocError == null) {
             btnPlay.getTexture().dispose();
-        }else{
-            errorFont.dispose();
         }
         audio.dispose();
     }
@@ -120,8 +118,7 @@ public class MenuState extends State implements InputProcessor{
             if (btnPlay.getBounds().contains(screenX, screenY)) {
                 // Delete the first state and add new one
                 audio.stop();
-                gsm.pop();
-                gsm.push(new GameState(gsm));
+                gsm.set(new GameState(gsm));
                 // dispose all assets elements, to prevent memory leaks
                 this.dispose();
             }

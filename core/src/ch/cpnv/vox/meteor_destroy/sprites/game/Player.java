@@ -180,4 +180,11 @@ public class Player extends Sprite {
         this.wordToFind = wordToFind;
         glyphLayout.setText(font, wordToFind.getValue1());
     }
+
+    public void dispose(){
+        this.getTexture().dispose();
+        for(Laser laser: allLasers){
+            laser.dispose();
+        }
+    }
 }

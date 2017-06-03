@@ -31,7 +31,7 @@ public class GameState extends State implements InputProcessor{
 
     public GameState(GameStateManager gsm) {
         super(gsm);
-        // Mandatory to use the InputProcessor
+        // Mandatory to use the InputProcessor on this current state
         Gdx.input.setInputProcessor(this);
         // init Sprites
         background = new Background();
@@ -57,6 +57,7 @@ public class GameState extends State implements InputProcessor{
         }
         removeMeteorIfNotAlive();
         hud.update();
+        checkGameOver();
     }
 
     @Override
@@ -79,7 +80,7 @@ public class GameState extends State implements InputProcessor{
         hud.dispose();
         controller.dispose();
         background.getTexture().dispose();
-        player.getTexture().dispose();
+        player.dispose();
         for(Meteor meteor: meteors){
             meteor.dispose();
         }
@@ -118,6 +119,14 @@ public class GameState extends State implements InputProcessor{
         explosionSound.play();
     }
 
+    public void checkGameOver(){
+        if(Player.life <= 0){
+            gsm.set(new GameOverState(gsm));
+            // dispose all assets elements, to prevent memory leaks
+            this.dispose();
+        }
+    }
+
 
     /*-------------------------------------------------------------------*/
 
@@ -125,8 +134,8 @@ public class GameState extends State implements InputProcessor{
     public boolean keyDown(int keycode) {
         // Touch the physical back key of the phone
         if(keycode == Input.Keys.BACK){
-            gsm.pop();
-            gsm.push(new MenuState(gsm, null));
+            // Set the new state in place of the old
+            gsm.set(new MenuState(gsm, null));
             // dispose all assets elements, to prevent memory leaks
             this.dispose();
         }
