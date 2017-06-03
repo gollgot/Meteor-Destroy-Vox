@@ -62,9 +62,9 @@ public class Helpers {
 
         // kenVector_150
         FreeTypeFontGenerator.FreeTypeFontParameter parameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator generator3 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
+        FreeTypeFontGenerator generator3 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/kenvector_future.ttf"));
 
-        parameter3.size = (int) Helpers.getHeightAdaptToResolution(100);
+        parameter3.size = (int) Helpers.getHeightAdaptToResolution(150);
         parameter3.borderWidth = 1;
         parameter3.borderColor = Color.BLACK;
         parameter3.color = Color.WHITE;

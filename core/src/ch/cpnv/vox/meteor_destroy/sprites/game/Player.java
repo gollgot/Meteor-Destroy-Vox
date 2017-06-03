@@ -40,7 +40,7 @@ public class Player extends Sprite {
     }
 
     private void init() {
-        life = 3;
+        life = 1;
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)

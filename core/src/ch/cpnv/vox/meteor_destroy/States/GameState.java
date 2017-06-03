@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
+import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Controller;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Hud;
@@ -121,7 +122,7 @@ public class GameState extends State implements InputProcessor{
 
     public void checkGameOver(){
         if(Player.life <= 0){
-            gsm.set(new GameOverState(gsm));
+            gsm.set(new GameOverState(gsm, Hud.score));
             // dispose all assets elements, to prevent memory leaks
             this.dispose();
         }
