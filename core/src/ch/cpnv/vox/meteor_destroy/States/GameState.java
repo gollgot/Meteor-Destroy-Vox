@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class GameState extends State implements InputProcessor{
     private Player player;
     private Controller controller;
     private Hud hud;
-    private Music laserSound;
-    private static Music explosionSound;
+    private Sound laserSound;
+    private static Sound explosionSound;
     public static ArrayList<Meteor> meteors;
     private long start_time;
 
@@ -39,8 +40,8 @@ public class GameState extends State implements InputProcessor{
         player = new Player();
         controller =  new Controller();
         hud = new Hud();
-        laserSound = Gdx.audio.newMusic(Gdx.files.internal("game/laser.ogg"));
-        explosionSound = Gdx.audio.newMusic(Gdx.files.internal("game/explosion.ogg"));
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("game/laser.ogg"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("game/explosion.ogg"));
         // Built meteors
         start_time =  System.currentTimeMillis();
         meteors = new ArrayList<>();
