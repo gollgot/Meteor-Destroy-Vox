@@ -67,7 +67,7 @@ public class GameOverState extends State implements InputProcessor{
     }
 
     private void initAudio() {
-        audio = Gdx.audio.newMusic(Gdx.files.internal("game_over/game_over.ogg"));
+        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/game_over.ogg"));
         audio.play();
         audio.setLooping(true);
     }

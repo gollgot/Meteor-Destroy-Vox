@@ -65,8 +65,6 @@ public class Laser extends Sprite{
         // Collision with meteor
         for(int i=0; i < GameState.meteors.size(); i++){
             if(GameState.meteors.get(i).getBounds().contains(getX(), getY())){
-                // Play sound of explosion
-                GameState.playExplosionSound();
                 // Laser is dead
                 alive = false;
                 // type redLaser : destroy the meteor
@@ -75,10 +73,15 @@ public class Laser extends Sprite{
                     case "redLaser":
                         // We have to shoot the good meteor word, I check that
                         if(player.getWordToFind().getValue2() == GameState.meteors.get(i).getTranslateWord()){
+                            // Play sound of explosion
+                            GameState.playExplosionSound();
+
                             Hud.score += 25;
                             // We shot the good word, we generate a new one
                             player.setWordToFind(VocabularyManager.getWordToFind());
                         }else {
+                            // Play sound of life down
+                            GameState.playlifeDownSound();
                             player.life--;
                             Hud.score -= 50;
                         }
@@ -87,6 +90,9 @@ public class Laser extends Sprite{
                         GameState.meteors.remove(i);
                         break;
                     case "greenLaser":
+                        // Play sound of Deviation
+                        GameState.playDeviateSound();
+
                         // Case of the green laser touch the Right part of the meteor
                         if(getX()+(getWidth()/2) >= GameState.meteors.get(i).getX()+(GameState.meteors.get(i).getWidth()/2)){
                             // Deviate on left side

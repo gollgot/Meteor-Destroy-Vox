@@ -56,7 +56,7 @@ public class MenuState extends State implements InputProcessor{
     }
 
     private void initAudio() {
-        audio = Gdx.audio.newMusic(Gdx.files.internal("menu/menu.ogg"));
+        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/menu.ogg"));
         audio.play();
         audio.setLooping(true);
     }

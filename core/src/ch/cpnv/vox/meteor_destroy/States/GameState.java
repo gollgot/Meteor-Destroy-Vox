@@ -27,8 +27,8 @@ public class GameState extends State implements InputProcessor{
     private Controller controller;
     private Music audio;
     private Hud hud;
-    private Sound laserSound;
-    private static Sound explosionSound;
+    private Sound greenLaserSound, redLaserSound;
+    private static Sound explosionSound, lifeDownSound, deviateSound;
     public static ArrayList<Meteor> meteors;
     private long start_time;
 
@@ -50,9 +50,12 @@ public class GameState extends State implements InputProcessor{
     }
 
     private void initAudio() {
-        laserSound = Gdx.audio.newSound(Gdx.files.internal("game/laser.ogg"));
-        explosionSound = Gdx.audio.newSound(Gdx.files.internal("game/explosion.ogg"));
-        audio = Gdx.audio.newMusic(Gdx.files.internal("game/game.ogg"));
+        greenLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/green_laser.ogg"));
+        redLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/red_laser.ogg"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.ogg"));
+        deviateSound = Gdx.audio.newSound(Gdx.files.internal("audio/deviate.ogg"));
+        lifeDownSound = Gdx.audio.newSound(Gdx.files.internal("audio/life_down.ogg"));
+        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/game.ogg"));
         audio.play();
         audio.setLooping(true);
     }
@@ -131,6 +134,14 @@ public class GameState extends State implements InputProcessor{
         explosionSound.play();
     }
 
+    public static void playDeviateSound() {
+        deviateSound.play();
+    }
+
+    public static void playlifeDownSound() {
+        lifeDownSound.play();
+    }
+
     public void checkGameOver(){
         if(Player.life <= 0){
             gsm.set(new GameOverState(gsm, Hud.score));
@@ -177,7 +188,11 @@ public class GameState extends State implements InputProcessor{
         }
         // Shoot controller detection
         if(controller.getShootBounds().contains(screenX, screenY)){
-            laserSound.play();
+            if(player.getLaserType() == "redLaser"){
+                redLaserSound.play();
+            }else{
+                greenLaserSound.play();
+            }
             player.shoot();
         }
         // Change Weapon
@@ -217,4 +232,5 @@ public class GameState extends State implements InputProcessor{
     public boolean scrolled(int amount) {
         return false;
     }
+
 }
