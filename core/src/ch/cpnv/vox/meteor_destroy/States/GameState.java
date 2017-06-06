@@ -25,6 +25,7 @@ public class GameState extends State implements InputProcessor{
     private Background background;
     private Player player;
     private Controller controller;
+    private Music audio;
     private Hud hud;
     private Sound laserSound;
     private static Sound explosionSound;
@@ -40,12 +41,20 @@ public class GameState extends State implements InputProcessor{
         player = new Player();
         controller =  new Controller();
         hud = new Hud();
-        laserSound = Gdx.audio.newSound(Gdx.files.internal("game/laser.ogg"));
-        explosionSound = Gdx.audio.newSound(Gdx.files.internal("game/explosion.ogg"));
+        // Audio / sound effects
+        initAudio();
         // Built meteors
         start_time =  System.currentTimeMillis();
         meteors = new ArrayList<>();
         buildMeteor();
+    }
+
+    private void initAudio() {
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("game/laser.ogg"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("game/explosion.ogg"));
+        audio = Gdx.audio.newMusic(Gdx.files.internal("game/game.ogg"));
+        audio.play();
+        audio.setLooping(true);
     }
 
     @Override
@@ -86,6 +95,7 @@ public class GameState extends State implements InputProcessor{
         for(Meteor meteor: meteors){
             meteor.dispose();
         }
+        audio.dispose();
     }
 
     // Each 2 seconds, build a new meteor

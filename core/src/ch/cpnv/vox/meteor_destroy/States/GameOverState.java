@@ -3,6 +3,7 @@ package ch.cpnv.vox.meteor_destroy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -22,6 +23,7 @@ public class GameOverState extends State implements InputProcessor{
     private Background background;
     private Sprite btnRetry, btnQuit;
     private Rectangle btnRetryBounds, btnQuitBounds;
+    private Music audio;
 
     private int score;
 
@@ -52,6 +54,7 @@ public class GameOverState extends State implements InputProcessor{
         background = new Background();
         btnRetry = new Sprite(new Texture("game_over/retry_button.png"));
         btnQuit = new Sprite(new Texture("game_over/quit_button.png"));
+        initAudio();
         // Sizes
         btnRetry.setSize(Helpers.getWidthAdaptToResolution(btnRetry.getWidth()), Helpers.getHeightAdaptToResolution(btnRetry.getHeight()));
         btnQuit.setSize(Helpers.getWidthAdaptToResolution(btnQuit.getWidth()), Helpers.getHeightAdaptToResolution(btnQuit.getHeight()));
@@ -61,6 +64,12 @@ public class GameOverState extends State implements InputProcessor{
         // Bounds
         btnRetryBounds = new Rectangle(btnRetry.getX(), btnRetry.getY(), btnRetry.getWidth(), btnRetry.getHeight());
         btnQuitBounds = new Rectangle(btnQuit.getX(), btnQuit.getY(), btnQuit.getWidth(), btnQuit.getHeight());
+    }
+
+    private void initAudio() {
+        audio = Gdx.audio.newMusic(Gdx.files.internal("game_over/game_over.ogg"));
+        audio.play();
+        audio.setLooping(true);
     }
 
     @Override
@@ -84,6 +93,7 @@ public class GameOverState extends State implements InputProcessor{
         background.getTexture().dispose();
         btnRetry.getTexture().dispose();
         btnQuit.getTexture().dispose();
+        audio.dispose();
     }
 
 
