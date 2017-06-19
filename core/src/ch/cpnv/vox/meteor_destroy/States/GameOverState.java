@@ -15,91 +15,118 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.Background;
 
 /**
- * Created by Loïc on 03.06.2017.
+ * The GameOverState is the state displayed when we loose all our life in the game.
  */
 
 public class GameOverState extends State implements InputProcessor{
 
-    private Background background;
-    private Sprite btnRetry, btnQuit;
-    private Rectangle btnRetryBounds, btnQuitBounds;
-    private Music audio;
+    private Background mBackground;
+    private Sprite mBtnRetry, mBtnQuit;
+    private Rectangle mBtnRetryBounds, mBtnQuitBounds;
+    private Music mAudio;
 
-    private int score;
+    private int mScore;
 
-    private BitmapFont fontTitle, fontText;
-    private GlyphLayout glyphLayoutTitle, glyphLayoutText;
+    private BitmapFont mFontTitle, mFontText;
+    private GlyphLayout mGlyphLayoutTitle, mGlyphLayoutText;
 
+    /**
+     * Constructor, with some inits
+     * @param gsm The current Game State Manager
+     * @param score The score did on the GameState
+     */
     public GameOverState(GameStateManager gsm, int score) {
         super(gsm);
-        this.score = score;
+        this.mScore = score;
+        // Notify that we use InputProcessor on this class, mandatory to works
         Gdx.input.setInputProcessor(this);
         initFont();
         initSprites();
     }
 
+    /**
+     * Initialize the fonts
+     */
     private void initFont() {
         // get the font which preloaded
-        fontTitle = Helpers.kenVector_150;
-        fontText = Helpers.openSans_100;
+        mFontTitle = Helpers.kenVector_150;
+        mFontText = Helpers.openSans_100;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
-        glyphLayoutTitle = new GlyphLayout();
-        glyphLayoutText = new GlyphLayout();
-        glyphLayoutTitle.setText(fontTitle, "Game Over");
-        glyphLayoutText.setText(fontText, "Score : "+String.valueOf(score));
+        mGlyphLayoutTitle = new GlyphLayout();
+        mGlyphLayoutText = new GlyphLayout();
+        mGlyphLayoutTitle.setText(mFontTitle, "Game Over");
+        mGlyphLayoutText.setText(mFontText, "Score : "+String.valueOf(mScore));
     }
 
+    /**
+     * Initialize the sprites
+     */
     private void initSprites(){
         // Initialisation
-        background = new Background();
-        btnRetry = new Sprite(new Texture("game_over/retry_button.png"));
-        btnQuit = new Sprite(new Texture("game_over/quit_button.png"));
+        mBackground = new Background();
+        mBtnRetry = new Sprite(new Texture("game_over/retry_button.png"));
+        mBtnQuit = new Sprite(new Texture("game_over/quit_button.png"));
         initAudio();
         // Sizes
-        btnRetry.setSize(Helpers.getWidthAdaptToResolution(btnRetry.getWidth()), Helpers.getHeightAdaptToResolution(btnRetry.getHeight()));
-        btnQuit.setSize(Helpers.getWidthAdaptToResolution(btnQuit.getWidth()), Helpers.getHeightAdaptToResolution(btnQuit.getHeight()));
+        mBtnRetry.setSize(Helpers.getWidthAdaptToResolution(mBtnRetry.getWidth()), Helpers.getHeightAdaptToResolution(mBtnRetry.getHeight()));
+        mBtnQuit.setSize(Helpers.getWidthAdaptToResolution(mBtnQuit.getWidth()), Helpers.getHeightAdaptToResolution(mBtnQuit.getHeight()));
         // Positions
-        btnRetry.setPosition((Helpers.MOBILE_WIDTH / 2) - btnRetry.getWidth() / 2, (Helpers.MOBILE_HEIGHT / 2) - btnRetry.getHeight() / 2);
-        btnQuit.setPosition(btnRetry.getX(), btnRetry.getY() - btnQuit.getHeight() - Helpers.getHeightAdaptToResolution(40));
+        mBtnRetry.setPosition((Helpers.MOBILE_WIDTH / 2) - mBtnRetry.getWidth() / 2, (Helpers.MOBILE_HEIGHT / 2) - mBtnRetry.getHeight() / 2);
+        mBtnQuit.setPosition(mBtnRetry.getX(), mBtnRetry.getY() - mBtnQuit.getHeight() - Helpers.getHeightAdaptToResolution(40));
         // Bounds
-        btnRetryBounds = new Rectangle(btnRetry.getX(), btnRetry.getY(), btnRetry.getWidth(), btnRetry.getHeight());
-        btnQuitBounds = new Rectangle(btnQuit.getX(), btnQuit.getY(), btnQuit.getWidth(), btnQuit.getHeight());
+        mBtnRetryBounds = new Rectangle(mBtnRetry.getX(), mBtnRetry.getY(), mBtnRetry.getWidth(), mBtnRetry.getHeight());
+        mBtnQuitBounds = new Rectangle(mBtnQuit.getX(), mBtnQuit.getY(), mBtnQuit.getWidth(), mBtnQuit.getHeight());
     }
 
+    /**
+     * Initialize the audio
+     */
     private void initAudio() {
-        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/game_over.ogg"));
-        audio.play();
-        audio.setLooping(false);
+        mAudio = Gdx.audio.newMusic(Gdx.files.internal("audio/game_over.ogg"));
+        mAudio.play();
+        mAudio.setLooping(false);
     }
 
+    /**
+     * Update method from State class
+     * @param dt Delta time between each frame
+     */
     @Override
     public void update(float dt) {
-
     }
 
+    /**
+     * Render method from State class
+     * @param sb The spriteBatch require to display element on screen
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        background.draw(sb);
-        btnRetry.draw(sb);
-        btnQuit.draw(sb);
-        fontTitle.draw(sb, glyphLayoutTitle, (Helpers.MOBILE_WIDTH / 2) - (glyphLayoutTitle.width / 2), Helpers.MOBILE_HEIGHT - glyphLayoutTitle.height - Helpers.getHeightAdaptToResolution(150));
-        fontText.draw(sb, glyphLayoutText, (Helpers.MOBILE_WIDTH / 2) - (glyphLayoutText.width / 2), btnRetry.getY() + btnRetry.getHeight() + Helpers.getHeightAdaptToResolution(250));
+        mBackground.draw(sb);
+        mBtnRetry.draw(sb);
+        mBtnQuit.draw(sb);
+        mFontTitle.draw(sb, mGlyphLayoutTitle, (Helpers.MOBILE_WIDTH / 2) - (mGlyphLayoutTitle.width / 2), Helpers.MOBILE_HEIGHT - mGlyphLayoutTitle.height - Helpers.getHeightAdaptToResolution(150));
+        mFontText.draw(sb, mGlyphLayoutText, (Helpers.MOBILE_WIDTH / 2) - (mGlyphLayoutText.width / 2), mBtnRetry.getY() + mBtnRetry.getHeight() + Helpers.getHeightAdaptToResolution(250));
         sb.end();
     }
 
+    /**
+     * Dispose method from State class
+     */
     @Override
     public void dispose() {
-        background.getTexture().dispose();
-        btnRetry.getTexture().dispose();
-        btnQuit.getTexture().dispose();
-        audio.dispose();
+        mBackground.getTexture().dispose();
+        mBtnRetry.getTexture().dispose();
+        mBtnQuit.getTexture().dispose();
+        mAudio.dispose();
     }
 
 
     /*-------------------------------------------------------------------*/
 
-
+    /**
+     * All methods under this one is for manage the inputs (Touch, mouse, scroll, etc...)
+     */
     @Override
     public boolean keyDown(int keycode) {
         // Touch the physical back key of the phone
@@ -128,11 +155,11 @@ public class GameOverState extends State implements InputProcessor{
         screenY = Helpers.MOBILE_HEIGHT - screenY;
 
         // Touch the quit button
-        if(btnQuitBounds.contains(screenX, screenY)){
+        if(mBtnQuitBounds.contains(screenX, screenY)){
             Gdx.app.exit();
         }
         // Touch the quit button
-        if(btnRetryBounds.contains(screenX, screenY)){
+        if(mBtnRetryBounds.contains(screenX, screenY)){
             // Load the gameState
             gsm.set(new GameState(gsm));
             // dispose all assets elements, to prevent memory leaks

@@ -17,54 +17,66 @@ import ch.cpnv.vox.meteor_destroy.sprites.game.Meteor;
 import ch.cpnv.vox.meteor_destroy.sprites.game.Player;
 
 /**
- * Created by Loic.DESSAULES on 22.05.2017.
+ * The Game State is the principal state, we play the game on this one.
  */
 
 public class GameState extends State implements InputProcessor{
 
-    private Background background;
-    private Player player;
-    private Controller controller;
-    private Music audio;
-    private Hud hud;
-    private Sound greenLaserSound, redLaserSound;
-    private static Sound explosionSound, lifeDownSound, deviateSound;
+    private Background mBackground;
+    private Player mPlayer;
+    private Controller mController;
+    private Music mAudio;
+    private Hud mHud;
+    private Sound mGreenLaserSound, mRedLaserSound;
+    private static Sound mExplosionSound, mLifeDownSound, mDeviateSound;
+    private long mStart_time;
+
     public static float meteorSpeedY;
     public static ArrayList<Meteor> meteors;
-    private long start_time;
 
+    /**
+     * Constructor with initialization
+     * @param gsm The current Game State Manager
+     */
     public GameState(GameStateManager gsm) {
         super(gsm);
         // Mandatory to use the InputProcessor on this current state
         Gdx.input.setInputProcessor(this);
         // init Sprites
-        background = new Background();
-        player = new Player();
-        controller =  new Controller();
-        hud = new Hud();
+        mBackground = new Background();
+        mPlayer = new Player();
+        mController =  new Controller();
+        mHud = new Hud();
         // Audio / sound effects
         initAudio();
         // Built meteors
-        start_time =  System.currentTimeMillis();
+        mStart_time =  System.currentTimeMillis(); // Calcul the time passed, to have a new meteor each 2seconds
         meteorSpeedY = Helpers.getHeightAdaptToResolution(8);
         meteors = new ArrayList<>();
         buildMeteor();
     }
 
+    /**
+     * Audio initialization
+     */
     private void initAudio() {
-        greenLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/green_laser.ogg"));
-        redLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/red_laser.ogg"));
-        explosionSound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.ogg"));
-        deviateSound = Gdx.audio.newSound(Gdx.files.internal("audio/deviate.ogg"));
-        lifeDownSound = Gdx.audio.newSound(Gdx.files.internal("audio/life_down.ogg"));
-        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/game.ogg"));
-        audio.play();
-        audio.setLooping(true);
+        mGreenLaserSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/green_laser.ogg"));
+        mRedLaserSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/red_laser.ogg"));
+        mExplosionSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/explosion.ogg"));
+        mDeviateSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/deviate.ogg"));
+        mLifeDownSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/life_down.ogg"));
+        mAudio = Gdx.audio.newMusic(Gdx.files.internal("mAudio/game.ogg"));
+        mAudio.play();
+        mAudio.setLooping(true);
     }
 
+    /**
+     * Update method from State class
+     * @param dt Delta time between each frame
+     */
     @Override
     public void update(float dt) {
-        player.update();
+        mPlayer.update();
         buildMeteor();
         if(hasMeteor()){
            for(Meteor meteor: meteors){
@@ -72,47 +84,60 @@ public class GameState extends State implements InputProcessor{
            }
         }
         removeMeteorIfNotAlive();
-        hud.update();
+        mHud.update();
         checkGameOver();
     }
 
+    /**
+     * Render method from State class
+     * @param sb The spriteBatch require to display element on screen
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        background.draw(sb);
-        player.render(sb);
+        mBackground.draw(sb);
+        mPlayer.render(sb);
         if(hasMeteor()){
             for(Meteor meteor: meteors){
                 meteor.render(sb);
             }
         }
-        controller.render(sb);
-        hud.render(sb);
+        mController.render(sb);
+        mHud.render(sb);
         sb.end();
     }
 
+    /**
+     * Dispose method from State class
+     */
     @Override
     public void dispose() {
-        hud.dispose();
-        controller.dispose();
-        background.getTexture().dispose();
-        player.dispose();
+        mHud.dispose();
+        mController.dispose();
+        mBackground.getTexture().dispose();
+        mPlayer.dispose();
         for(Meteor meteor: meteors){
             meteor.dispose();
         }
-        audio.dispose();
+        mAudio.dispose();
     }
 
-    // Each 2 seconds, build a new meteor
-    // We cannot do this in a thread because we can only create Sprite in the applicationThread who display OpenGL
+    /**
+     * Each 2 seconds, build a new meteor
+     * We cannot do this in a thread because we can only create Sprite in the applicationThread who display OpenGL
+     */
     private void buildMeteor() {
         long end_time = System.currentTimeMillis();
-        if(end_time - start_time >= 2000){
+        if(end_time - mStart_time >= 2000){
             meteors.add(new Meteor());
-            start_time = System.currentTimeMillis();
+            mStart_time = System.currentTimeMillis();
         }
     }
 
+    /**
+     * Are there meteors ?
+     * @return true if we have a meteor in the screen, false other case
+     */
     private boolean hasMeteor(){
         if(meteors.size() > 0){
             return true;
@@ -121,6 +146,9 @@ public class GameState extends State implements InputProcessor{
         }
     }
 
+    /**
+     * Remove all dead meteors, this way we prevent memory leaks. There are max 3-4 meteors all the time on the screen
+     */
     private void removeMeteorIfNotAlive() {
         for (int i=0; i < meteors.size(); i++){
             if(!meteors.get(i).isAlive()){
@@ -132,18 +160,9 @@ public class GameState extends State implements InputProcessor{
         }
     }
 
-    public static void playExplosionSound(){
-        explosionSound.play();
-    }
-
-    public static void playDeviateSound() {
-        deviateSound.play();
-    }
-
-    public static void playlifeDownSound() {
-        lifeDownSound.play();
-    }
-
+    /**
+     * Check if the player his alive
+     */
     public void checkGameOver(){
         if(Player.life <= 0){
             gsm.set(new GameOverState(gsm, Hud.score));
@@ -152,9 +171,32 @@ public class GameState extends State implements InputProcessor{
         }
     }
 
+    /**
+     * Play the explosion sound
+     */
+    public static void playExplosionSound(){
+        mExplosionSound.play();
+    }
+
+    /**
+     * play the deviate sound
+     */
+    public static void playDeviateSound() {
+        mDeviateSound.play();
+    }
+
+    /**
+     * Play the life down sound (when we loose a life)
+     */
+    public static void playlifeDownSound() {
+        mLifeDownSound.play();
+    }
 
     /*-------------------------------------------------------------------*/
 
+    /**
+     * All methods under this one is for manage the inputs (Touch, mouse, scroll, etc...)
+     */
     @Override
     public boolean keyDown(int keycode) {
         // Touch the physical back key of the phone
@@ -180,29 +222,29 @@ public class GameState extends State implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        // Left controller detection
-        if(controller.getLeftBounds().contains(screenX, screenY)){
-            player.setDirection("left");
+        // Left mController detection
+        if(mController.getLeftBounds().contains(screenX, screenY)){
+            mPlayer.setDirection("left");
         }
-        // Right controller detection
-        if(controller.getRightBounds().contains(screenX, screenY)){
-            player.setDirection("right");
+        // Right mController detection
+        if(mController.getRightBounds().contains(screenX, screenY)){
+            mPlayer.setDirection("right");
         }
-        // Shoot controller detection
-        if(controller.getShootBounds().contains(screenX, screenY)){
-            if(player.getLaserType() == "redLaser"){
-                redLaserSound.play();
+        // Shoot mController detection
+        if(mController.getShootBounds().contains(screenX, screenY)){
+            if(mPlayer.getLaserType() == "redLaser"){
+                mRedLaserSound.play();
             }else{
-                greenLaserSound.play();
+                mGreenLaserSound.play();
             }
-            player.shoot();
+            mPlayer.shoot();
         }
         // Change Weapon
-        if(controller.getWeaponBounds().contains(screenX, screenY)){
-            if(player.getLaserType() == "redLaser"){
-                player.setLaserType("greenLaser");
-            }else if(player.getLaserType() == "greenLaser"){
-                player.setLaserType("redLaser");
+        if(mController.getWeaponBounds().contains(screenX, screenY)){
+            if(mPlayer.getLaserType() == "redLaser"){
+                mPlayer.setLaserType("greenLaser");
+            }else if(mPlayer.getLaserType() == "greenLaser"){
+                mPlayer.setLaserType("redLaser");
             }
         }
 
@@ -211,11 +253,11 @@ public class GameState extends State implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // If we touch up from another location as the ShootButton or change weapon button, we stop the player
+        // If we touch up from another location as the ShootButton or change weapon button, we stop the mPlayer
         // this way, we can shoot or change Weapon in movement
-        if(!controller.getShootBounds().contains(screenX, screenY) &&
-            !controller.getWeaponBounds().contains(screenX, screenY)){
-            player.setDirection("stop");
+        if(!mController.getShootBounds().contains(screenX, screenY) &&
+            !mController.getWeaponBounds().contains(screenX, screenY)){
+            mPlayer.setDirection("stop");
         }
         return false;
     }

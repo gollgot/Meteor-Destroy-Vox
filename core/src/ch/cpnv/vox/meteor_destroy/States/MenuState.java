@@ -17,81 +17,106 @@ import ch.cpnv.vox.meteor_destroy.sprites.menu.PlayButton;
 import ch.cpnv.vox.meteor_destroy.sprites.menu.Title;
 
 /**
- * Created by Loïc on 19.05.2017.
+ * this is the first State of the game, the menu with a play button
  */
 
 public class MenuState extends State implements InputProcessor{
 
-    private Background background;
-    private Title title;
-    private PlayButton btnPlay;
-    private Music audio;
-    private String vocError;
-    private BitmapFont errorFont;
-    private GlyphLayout glyphLayout;
+    private Background mBackground;
+    private Title mTitle;
+    private PlayButton mBtnPlay;
+    private Music mAudio;
+    private String mVocError;
+    private BitmapFont mErrorFont;
+    private GlyphLayout mGlyphLayout;
 
+    /**
+     * Constructor with initialization
+     * @param gsm The current GameStateManager
+     * @param vocError The error string from HttpManager class. null if no error
+     */
     public MenuState(GameStateManager gsm, String vocError) {
         super(gsm);
-        this.vocError = vocError;
+        this.mVocError = vocError;
         // Mandatory to use the InputProcessor on this current state
         Gdx.input.setInputProcessor(this);
 
         // init Sprite
-        background = new Background();
+        mBackground = new Background();
+        // If we have an error with the HttpManager, we display the error and no the button play
         if(vocError == null){
-            btnPlay = new PlayButton();
+            mBtnPlay = new PlayButton();
         }else{
             initFont();
         }
-        title = new Title();
+        mTitle = new Title();
         initAudio();
     }
 
+    /**
+     * Font initialization
+     */
     private void initFont() {
         // get the font which preloaded
-        errorFont = Helpers.openSans_100;
+        mErrorFont = Helpers.openSans_100;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
-        glyphLayout = new GlyphLayout();
-        glyphLayout.setText(errorFont, vocError);
+        mGlyphLayout = new GlyphLayout();
+        mGlyphLayout.setText(mErrorFont, mVocError);
     }
 
+    /**
+     * Audio initialization
+     */
     private void initAudio() {
-        audio = Gdx.audio.newMusic(Gdx.files.internal("audio/menu.ogg"));
-        audio.play();
-        audio.setLooping(true);
+        mAudio = Gdx.audio.newMusic(Gdx.files.internal("audio/menu.ogg"));
+        mAudio.play();
+        mAudio.setLooping(true);
     }
 
+    /**
+     * Update method from State class
+     * @param dt Delta time between each frame
+     */
     @Override
     public void update(float dt) {
 
     }
 
+    /**
+     * Render method from State class
+     * @param sb The spriteBatch require to display element on screen
+     */
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        background.draw(sb);
-        title.draw(sb);
-        if(vocError == null) {
-            btnPlay.draw(sb);
+        mBackground.draw(sb);
+        mTitle.draw(sb);
+        if(mVocError == null) {
+            mBtnPlay.draw(sb);
         }else{
-            errorFont.draw(sb, vocError, Helpers.getWidthAdaptToResolution(40),Helpers.MOBILE_HEIGHT/2);
+            mErrorFont.draw(sb, mVocError, Helpers.getWidthAdaptToResolution(40),Helpers.MOBILE_HEIGHT/2);
         }
         sb.end();
     }
 
+    /**
+     * Dispose method from State class
+     */
     @Override
     public void dispose() {
-        background.getTexture().dispose();
-        title.getTexture().dispose();
-        if(vocError == null) {
-            btnPlay.getTexture().dispose();
+        mBackground.getTexture().dispose();
+        mTitle.getTexture().dispose();
+        if(mVocError == null) {
+            mBtnPlay.getTexture().dispose();
         }
-        audio.dispose();
+        mAudio.dispose();
     }
 
     /*-------------------------------------------------------------------*/
 
-
+    /**
+     * All methods under this one is for manage the inputs (Touch, mouse, scroll, etc...)
+     */
     @Override
     public boolean keyDown(int keycode) {
         // Touch the physical back key on the phone
@@ -113,11 +138,11 @@ public class MenuState extends State implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (vocError == null){
+        if (mVocError == null){
             // I check if the play button bounds (rectangle) contains our Touch X,Y
-            if (btnPlay.getBounds().contains(screenX, screenY)) {
+            if (mBtnPlay.getBounds().contains(screenX, screenY)) {
                 // Delete the first state and add new one
-                audio.stop();
+                mAudio.stop();
                 gsm.set(new GameState(gsm));
                 // dispose all assets elements, to prevent memory leaks
                 this.dispose();

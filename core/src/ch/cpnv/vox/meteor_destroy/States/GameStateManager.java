@@ -5,39 +5,61 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
 /**
- * Created by Loïc on 19.05.2017.
+ * This class will manage all our state system. We have a stack of state, we can add, pick a state on the stack.
+ * And we update and display the first state of the stack. This way we can easily change game state like
+ * MenuState, GameState, GameOverState, SettingsState etc.
  */
 
 public class GameStateManager{
 
-    private Stack<State> states;
+    private Stack<State> mStates;
 
+    /**
+     * Constructor, initialize a new stack of State
+     */
     public GameStateManager() {
         // Create the states stack
-        states = new Stack<State>();
+        mStates = new Stack<State>();
     }
 
-    // Add state on the stack
+    /**
+     * Add a State object on the stack
+     * @param state The State object to add to the stack
+     */
     public void push(State state){
-        states.push(state);
-    }
-    // Remove the first state on the stack
-    public void pop(){
-        states.pop();
-    }
-    // Remove the first state on the stack and add a new one
-    public void set(State state){
-        states.pop();
-        states.push(state);
+        mStates.push(state);
     }
 
-    // update the first State on the stack
-    public void update(float dt){
-        states.peek().update(dt);
+    /**
+     * Remove the first state on the stack
+     */
+    public void pop(){
+        mStates.pop();
     }
-    // Display the first State on the stack
+
+    /**
+     * Remove the first state on the stack and add a new one
+     * @param state The new State object to add to the stack
+     */
+    public void set(State state){
+        mStates.pop();
+        mStates.push(state);
+    }
+
+    /**
+     * Update the first State on the stack
+     * @param dt Delta time between each frame
+     */
+    public void update(float dt){
+        mStates.peek().update(dt);
+    }
+
+    /**
+     * Display the first State on the stack
+     * @param sb The spriteBatch require to display element on screen
+     */
     public void render(SpriteBatch sb){
-        states.peek().render(sb);
+        mStates.peek().render(sb);
     }
 
 }
