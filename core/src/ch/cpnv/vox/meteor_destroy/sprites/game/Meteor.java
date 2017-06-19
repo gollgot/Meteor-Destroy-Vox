@@ -12,6 +12,7 @@ import java.util.Random;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.VocabularyManager;
+import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
  * Created by Loïc on 25.05.2017.
@@ -19,7 +20,6 @@ import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 
 public class Meteor extends Sprite {
 
-    private float velocityY = Helpers.getHeightAdaptToResolution(8);
     private float velocityX = 0;
     private boolean alive;
     private float angle;
@@ -76,7 +76,7 @@ public class Meteor extends Sprite {
     }
 
     private void move() {
-        setY(getY() - velocityY);
+        setY(getY() - GameState.meteorSpeedY);
         setX(getX() + velocityX);
         translateWordPosition.set((getX() + getWidth() / 2) - (glyphLayout.width / 2), getY() + getHeight() + Helpers.getHeightAdaptToResolution(80));
     }

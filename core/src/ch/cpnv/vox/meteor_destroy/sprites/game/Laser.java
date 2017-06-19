@@ -1,5 +1,6 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -79,6 +80,9 @@ public class Laser extends Sprite{
                             Hud.score += 25;
                             // We shot the good word, we generate a new one
                             player.setWordToFind(VocabularyManager.getWordToFind());
+
+                            // Up the meteor speed
+                            GameState.meteorSpeedY += Helpers.getHeightAdaptToResolution(1);
                         }else {
                             // Play sound of life down
                             GameState.playlifeDownSound();

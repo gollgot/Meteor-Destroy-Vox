@@ -29,6 +29,7 @@ public class GameState extends State implements InputProcessor{
     private Hud hud;
     private Sound greenLaserSound, redLaserSound;
     private static Sound explosionSound, lifeDownSound, deviateSound;
+    public static float meteorSpeedY;
     public static ArrayList<Meteor> meteors;
     private long start_time;
 
@@ -45,6 +46,7 @@ public class GameState extends State implements InputProcessor{
         initAudio();
         // Built meteors
         start_time =  System.currentTimeMillis();
+        meteorSpeedY = Helpers.getHeightAdaptToResolution(8);
         meteors = new ArrayList<>();
         buildMeteor();
     }
@@ -105,7 +107,7 @@ public class GameState extends State implements InputProcessor{
     // We cannot do this in a thread because we can only create Sprite in the applicationThread who display OpenGL
     private void buildMeteor() {
         long end_time = System.currentTimeMillis();
-        if(end_time - start_time >= 2000){
+        if(end_time - start_time >= 1500){
             meteors.add(new Meteor());
             start_time = System.currentTimeMillis();
         }
