@@ -7,4 +7,4 @@ A big word will display under your player. Every 2 secondes a meteor will appear
 ## How to install the game
 
 ## Continue the project
-If you want to continue the project or just download and run it in your system, there is a technical documentation in the wiki's project.
+If you want to continue the project or just download and run it in your system, there is a technical documentation in the [wiki's project](https://github.com/gollgot/Meteor-Destroy-Vox/wiki/Getting-Started).
