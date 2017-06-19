@@ -60,12 +60,12 @@ public class GameState extends State implements InputProcessor{
      * Audio initialization
      */
     private void initAudio() {
-        mGreenLaserSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/green_laser.ogg"));
-        mRedLaserSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/red_laser.ogg"));
-        mExplosionSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/explosion.ogg"));
-        mDeviateSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/deviate.ogg"));
-        mLifeDownSound = Gdx.audio.newSound(Gdx.files.internal("mAudio/life_down.ogg"));
-        mAudio = Gdx.audio.newMusic(Gdx.files.internal("mAudio/game.ogg"));
+        mGreenLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/green_laser.ogg"));
+        mRedLaserSound = Gdx.audio.newSound(Gdx.files.internal("audio/red_laser.ogg"));
+        mExplosionSound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.ogg"));
+        mDeviateSound = Gdx.audio.newSound(Gdx.files.internal("audio/deviate.ogg"));
+        mLifeDownSound = Gdx.audio.newSound(Gdx.files.internal("audio/life_down.ogg"));
+        mAudio = Gdx.audio.newMusic(Gdx.files.internal("audio/game.ogg"));
         mAudio.play();
         mAudio.setLooping(true);
     }
