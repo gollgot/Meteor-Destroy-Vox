@@ -50,7 +50,7 @@ public class Helpers {
         parameter.color = Color.WHITE;
         openSans_100 = generator.generateFont(parameter);
 
-        // MeteorWordTranslateFont
+        // openSans_70
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans-Regular.ttf"));
 

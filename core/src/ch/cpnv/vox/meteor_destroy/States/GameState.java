@@ -107,7 +107,7 @@ public class GameState extends State implements InputProcessor{
     // We cannot do this in a thread because we can only create Sprite in the applicationThread who display OpenGL
     private void buildMeteor() {
         long end_time = System.currentTimeMillis();
-        if(end_time - start_time >= 1500){
+        if(end_time - start_time >= 2000){
             meteors.add(new Meteor());
             start_time = System.currentTimeMillis();
         }

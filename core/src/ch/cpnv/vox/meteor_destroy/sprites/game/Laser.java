@@ -77,7 +77,7 @@ public class Laser extends Sprite{
                             // Play sound of explosion
                             GameState.playExplosionSound();
 
-                            Hud.score += 25;
+                            Hud.score += 50;
                             // We shot the good word, we generate a new one
                             player.setWordToFind(VocabularyManager.getWordToFind());
 
@@ -87,7 +87,7 @@ public class Laser extends Sprite{
                             // Play sound of life down
                             GameState.playlifeDownSound();
                             player.life--;
-                            Hud.score -= 50;
+                            Hud.score -= 25;
                         }
                         // Destroy the meteor
                         GameState.meteors.get(i).dispose();

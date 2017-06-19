@@ -32,7 +32,6 @@ public class PlayButton extends Sprite{
         setY((Helpers.MOBILE_HEIGHT / 2) - (getHeight() / 2));
 
         // I created an invisible rectangle, this will be the limits of the button touch detection
-        // !!! Carefull, Rectangle x-y is from top-left of the screen and sprite bottom left
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
