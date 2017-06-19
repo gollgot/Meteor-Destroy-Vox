@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
- * Created by Loïc on 21.05.2017.
+ * This class contains all static methods can help us, so we can call them where we want.
  */
 
-public class Helpers {
+public abstract class Helpers {
 
     public static final int MOBILE_WIDTH = Gdx.graphics.getWidth();
     public static final int MOBILE_HEIGHT = Gdx.graphics.getHeight();
@@ -20,6 +20,13 @@ public class Helpers {
     public static BitmapFont openSans_70;
     public static BitmapFont kenVector_150;
 
+    /**
+     * Take the param and return a with adapted to the device resolution which run the game. All my
+     * images created for a 1440px width x 2560px height, so I can use a rule of 3 to calculate all width
+     * I need for the device.
+     * @param widthToChange The width you want to adapt
+     * @return The new width adapted to your mobile resolution
+     */
     /*
      * All the assets images are defined for the max resolution I chose: 1440px width x 2560px height
      * So, I do a simple rule of 3 with the imgWidth or simple width (at the max resolution I chose), the screenWidth, the max resolution width I chose.
@@ -32,6 +39,14 @@ public class Helpers {
         float newWidth = widthToChange * Gdx.graphics.getWidth() / referenceWidth;
         return newWidth;
     }
+
+    /**
+     * Take the param and return an height adapted to the device resolution which run the game. All my
+     * images created for a 1440px width x 2560px height, so I can use a rule of 3 to calculate all heights
+     * I need for the device.
+     * @param heightToChange The height you want to adapt
+     * @return The new height adapted to your mobile resolution
+     */
     /* Same as getWidthAdaptToResolution, but for the height*/
     public static float getHeightAdaptToResolution(float heightToChange){
         int referenceHeight = 2560;
@@ -39,6 +54,9 @@ public class Helpers {
         return newHeight;
     }
 
+    /**
+     * Method called to load all the fonts we will use.
+     */
     static public void loadFonts() {
         // openSans_100
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
