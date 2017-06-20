@@ -40,7 +40,7 @@ public class MeteorDestroy extends ApplicationAdapter{
 	}
 
     /**
-     * Display on the screen
+     * Display on the screen, called from ApplicationAdapter (LibGdx class)
      */
 	@Override
 	public void render () {

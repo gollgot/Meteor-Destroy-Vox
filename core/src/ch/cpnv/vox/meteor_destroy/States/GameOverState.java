@@ -88,7 +88,7 @@ public class GameOverState extends State implements InputProcessor{
     }
 
     /**
-     * Update method from State class
+     * Update method from State class called from the Game State Manager
      * @param dt Delta time between each frame
      */
     @Override

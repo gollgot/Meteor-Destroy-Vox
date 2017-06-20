@@ -1,9 +1,7 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
@@ -12,75 +10,94 @@ import ch.cpnv.vox.meteor_destroy.Helpers;
 import ch.cpnv.vox.meteor_destroy.sprites.hud.Life;
 
 /**
- * Created by Loic.DESSAULES on 31.05.2017.
+ * This is the HUD of the game, here we display lives of the player and score
  */
 
 public class Hud {
 
-    private int nbOfLife;
+    private int mNbOfLife;
     public  static int score;
 
-    private ArrayList<Life> lives;
-    private Life life1;
-    private Life life2;
-    private Life life3;
+    private ArrayList<Life> mLives;
+    private Life mLife1;
+    private Life mLife2;
+    private Life mLife3;
 
-    private float marginX = Helpers.getWidthAdaptToResolution(40);
-    private float marginY = Helpers.getHeightAdaptToResolution(40);
+    private float mMarginX = Helpers.getWidthAdaptToResolution(40);
+    private float mMarginY = Helpers.getHeightAdaptToResolution(40);
 
-    private BitmapFont font;
-    private GlyphLayout glyphLayout;
+    private BitmapFont mFont;
+    private GlyphLayout mGlyphLayout;
 
+    /**
+     * Constructor with initialization
+     */
     public Hud (){
         init();
     }
 
+    /**
+     * Initialization method, init the score, create array list of Life, positions
+     */
     private void init(){
         score = 0;
         // Init lives
-        lives = new ArrayList();
-        this.nbOfLife = Player.life;
-        life1 = new Life();
-        life2 = new Life();
-        life3 = new Life();
+        mLives = new ArrayList();
+        mNbOfLife = Player.life;
+        mLife1 = new Life();
+        mLife2 = new Life();
+        mLife3 = new Life();
 
         // Set the positions
-        life1.setPosition(marginX, Helpers.MOBILE_HEIGHT - life1.getHeight() - marginY);
-        life2.setPosition(life1.getX() + life1.getWidth() + marginX, Helpers.MOBILE_HEIGHT - life2.getHeight() - marginY);
-        life3.setPosition(life2.getX() + life2.getWidth() + marginX, Helpers.MOBILE_HEIGHT - life3.getHeight() - marginY);
+        mLife1.setPosition(mMarginX, Helpers.MOBILE_HEIGHT - mLife1.getHeight() - mMarginY);
+        mLife2.setPosition(mLife1.getX() + mLife1.getWidth() + mMarginX, Helpers.MOBILE_HEIGHT - mLife2.getHeight() - mMarginY);
+        mLife3.setPosition(mLife2.getX() + mLife2.getWidth() + mMarginX, Helpers.MOBILE_HEIGHT - mLife3.getHeight() - mMarginY);
 
         // Fill the lives arrayList
-        lives.add(life1);
-        lives.add(life2);
-        lives.add(life3);
+        mLives.add(mLife1);
+        mLives.add(mLife2);
+        mLives.add(mLife3);
         initFont();
     }
 
+    /**
+     * Font initialization
+     */
     private void initFont() {
         // get the font which preloaded
-        font = Helpers.openSans_70;
+        mFont = Helpers.openSans_70;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
-        glyphLayout = new GlyphLayout();
+        mGlyphLayout = new GlyphLayout();
     }
 
+    /**
+     * Update, here we do logical things. Called from GameState
+     */
     public void update(){
-        nbOfLife = Player.life;
-        glyphLayout.setText(font, String.valueOf(score));
+        mNbOfLife = Player.life;
+        mGlyphLayout.setText(mFont, String.valueOf(score));
     }
 
+    /**
+     * Draw the sprites and font, called from GameState render method
+     * @param sb The spriteBatch require to display element on screen
+     */
     public void render(SpriteBatch sb) {
         // Display only lives we have
-        for(int i=0; i < nbOfLife; i++){
-           lives.get(i).draw(sb);
+        for(int i=0; i < mNbOfLife; i++){
+            mLives.get(i).draw(sb);
         }
         // Display the score
-        font.draw(sb, glyphLayout, Helpers.MOBILE_WIDTH - glyphLayout.width - marginX, Helpers.MOBILE_HEIGHT - glyphLayout.height);
+        mFont.draw(sb, mGlyphLayout, Helpers.MOBILE_WIDTH - mGlyphLayout.width - mMarginX, Helpers.MOBILE_HEIGHT - mGlyphLayout.height);
     }
 
+    /**
+     * Dispose, to prevent memory leaks (Called from GameState)
+     */
     public void dispose(){
-        life1.getTexture().dispose();
-        life2.getTexture().dispose();
-        life3.getTexture().dispose();
+        mLife1.getTexture().dispose();
+        mLife2.getTexture().dispose();
+        mLife3.getTexture().dispose();
     }
 
 }

@@ -74,7 +74,7 @@ public class MenuState extends State implements InputProcessor{
     }
 
     /**
-     * Update method from State class
+     * Update method from State class called from the Game State Manager
      * @param dt Delta time between each frame
      */
     @Override
@@ -83,7 +83,7 @@ public class MenuState extends State implements InputProcessor{
     }
 
     /**
-     * Render method from State class
+     * Render method from State class called from the Game State Manager
      * @param sb The spriteBatch require to display element on screen
      */
     @Override
