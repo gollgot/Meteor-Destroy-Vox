@@ -1,29 +1,30 @@
 package ch.cpnv.vox.meteor_destroy.sprites.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 
 import ch.cpnv.vox.meteor_destroy.Helpers;
-import ch.cpnv.vox.meteor_destroy.states.GameState;
-import ch.cpnv.vox.meteor_destroy.states.GameStateManager;
-import ch.cpnv.vox.meteor_destroy.states.MenuState;
 
 /**
- * Created by Loïc on 21.05.2017.
+ * This class is used to create a PlayButton
  */
 
 public class PlayButton extends Sprite{
 
     private Rectangle bounds;
 
+    /**
+     * Constructor with initialization
+     */
     public PlayButton(){
         super(new Texture("menu/play_button.png"));
         init();
     }
 
+    /**
+     * Initialization of the tize, position, rectangle bounds
+     */
     private void init(){
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(this.getWidth()), Helpers.getHeightAdaptToResolution(this.getHeight()));
@@ -35,6 +36,10 @@ public class PlayButton extends Sprite{
         bounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
+    /**
+     * Get the bounds of the button
+     * @return A Rectangle object, this is the bounds of the play button
+     */
     public Rectangle getBounds() {
         return bounds;
     }
