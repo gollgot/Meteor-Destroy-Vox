@@ -6,5 +6,8 @@ A big word will display under your player. Every 2 secondes a meteor will appear
 
 ## How to install the game
 
+### Problem to run the app
+If you have problems to run the app on your phone, follow [this link](https://github.com/gollgot/Meteor-Destroy-Vox/wiki/Getting-Started#possible-problems), maybe you will have a response.
+
 ## Continue the project / Technical documentation
 If you want to continue the project or just download and run it in your system, there is a technical documentation in the [wiki's project](https://github.com/gollgot/Meteor-Destroy-Vox/wiki).
