@@ -1,6 +1,5 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,83 +9,106 @@ import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
- * Created by Loïc on 24.05.2017.
+ * This class define a Laser Object used to destroy or deviate meteors
  */
 
 public class Laser extends Sprite{
 
-    private Player player;
-    private float velocity = Helpers.getHeightAdaptToResolution(8);
-    private boolean alive;
-    private String type;
+    private Player mPlayer;
+    private float mVelocity = Helpers.getHeightAdaptToResolution(8);
+    private boolean mAlive;
+    private String mType;
 
+    /**
+     * Constructor, we need player (cause we will use player public method) and the type of laser to shoot
+     * @param player The current player objet
+     * @param type The type of the laser we want to shoot
+     */
     public Laser(Player player, String type){
         super(new Texture("game/redLaser.png"));
-        this.type = type;
-        this.player = player;
+        mType = type;
+        mPlayer = player;
         init();
     }
 
+    /**
+     * initialization method, set the texture, size, position, etc.
+     */
     private void init() {
-        if(type == "redLaser"){
-            setTexture(new Texture("game/redLaser.png"));
-        }else if(type == "greenLaser"){
-            setTexture(new Texture("game/greenLaser.png"));
+        switch(mType){
+            case "redLaser":
+                setTexture(new Texture("game/redLaser.png"));
+                break;
+            case "greenLaser":
+                setTexture(new Texture("game/greenLaser.png"));
+                break;
         }
-
-        //setTexture(new Texture("game/redLaser.png"));
 
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        setX(player.getX() + (player.getWidth() / 2) - (getWidth() / 2));
-        setY(player.getY() + player.getHeight() + Helpers.getHeightAdaptToResolution(30));
-        alive = true;
+        setX(mPlayer.getX() + (mPlayer.getWidth() / 2) - (getWidth() / 2));
+        setY(mPlayer.getY() + mPlayer.getHeight() + Helpers.getHeightAdaptToResolution(30));
+        mAlive = true;
     }
 
+    /**
+     * Update, here we do logical things. Called from Player.update method
+     */
     public void update() {
         move();
         checkCollision();
     }
 
+    /**
+     * Draw the sprite, called from Player.render method
+     * @param sb The spriteBatch require to display element on screen
+     */
     public void render(SpriteBatch sb) {
         draw(sb);
     }
 
+    /**
+     * Move the laser sprite on the Y axe
+     */
     private void move() {
-        setY(getY() + velocity);
+        setY(getY() + mVelocity);
     }
 
+    /**
+     * Check all collisions that a laser can find. Screen collision (laser dead when get out of the screen) and
+     * collision with meteor
+     */
     private void checkCollision() {
         // Go outside of the screen, without touch any meteor etc..
         if(getY() >= Helpers.MOBILE_HEIGHT){
-            alive = false;
+            mAlive = false;
         }
 
         // Collision with meteor
         for(int i=0; i < GameState.meteors.size(); i++){
             if(GameState.meteors.get(i).getBounds().contains(getX(), getY())){
                 // Laser is dead
-                alive = false;
+                mAlive = false;
                 // type redLaser : destroy the meteor
                 // type greenLaser : Deviate the meteor
-                switch(type){
+                switch(mType){
                     case "redLaser":
                         // We have to shoot the good meteor word, I check that
-                        if(player.getWordToFind().getValue2() == GameState.meteors.get(i).getTranslateWord()){
+                        if(mPlayer.getWordToFind().getValue2() == GameState.meteors.get(i).getTranslateWord()){
                             // Play sound of explosion
                             GameState.playExplosionSound();
 
                             Hud.score += 50;
                             // We shot the good word, we generate a new one
-                            player.setWordToFind(VocabularyManager.getWordToFind());
+                            mPlayer.setWordToFind(VocabularyManager.getWordToFind());
 
                             // Up the meteor speed
                             GameState.meteorSpeedY += Helpers.getHeightAdaptToResolution(1);
                         }else {
                             // Play sound of life down
                             GameState.playlifeDownSound();
-                            player.life--;
+                            mPlayer.life--;
                             Hud.score -= 25;
                         }
                         // Destroy the meteor
@@ -113,10 +135,17 @@ public class Laser extends Sprite{
         }
     }
 
+    /**
+     * Check if the laser is alive
+     * @return True if the laser is alive, false otherwise
+     */
     public boolean isAlive(){
-        return alive;
+        return mAlive;
     }
 
+    /**
+     * Dispose, to prevent memory leaks, called from Player.dispose method
+     */
     public void dispose() {
         getTexture().dispose();
     }

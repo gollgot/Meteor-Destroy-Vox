@@ -1,13 +1,10 @@
 package ch.cpnv.vox.meteor_destroy.sprites.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.ArrayList;
 
@@ -17,89 +14,108 @@ import ch.cpnv.vox.meteor_destroy.VocabularyManager;
 import ch.cpnv.vox.meteor_destroy.states.GameState;
 
 /**
- * Created by Loic.DESSAULES on 24.05.2017.
+ * This class define a Player Object used to shoot laser and move to avoid meteor and display the word to find
  */
 
 public class Player extends Sprite {
 
-    private String direction = "stop";
-    private float vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
+    private String mDirection = "stop";
+    private float m_vPlayer = Helpers.getWidthAdaptToResolution(10); // Velocity
     public  static int life;
 
-    private ArrayList<Laser> allLasers; //(missiles)
-    private String laserType;
+    private ArrayList<Laser> mAllLasers; //(missiles)
+    private String mLaserType;
 
-    private Word wordToFind;
+    private Word mWordToFind;
 
-    private BitmapFont font;
-    private GlyphLayout glyphLayout;
+    private BitmapFont mFont;
+    private GlyphLayout mGlyphLayout;
 
+    /**
+     * Constructor with initialization
+     */
     public Player(){
         super(new Texture("game/player.png"));
         init();
     }
 
+    /**
+     * Initialization method, set life, size, position, laser, word to find
+     */
     private void init() {
         life = 3;
         // Modify the image size in proportion of the mobile resolution
         setSize(Helpers.getWidthAdaptToResolution(getWidth()), Helpers.getHeightAdaptToResolution(getHeight()));
         // Set the position (fixed)
-        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
+        setX((Helpers.MOBILE_WIDTH / 2) - (getWidth() / 2) - (m_vPlayer *= 0.7)); // Middle - Little deplacement arrived when we setX(vitesse) in move method
         setY(Helpers.getHeightAdaptToResolution(350));
         // init array of redLaser
-        laserType = "redLaser";
-        allLasers = new ArrayList<Laser>();
+        mLaserType = "redLaser";
+        mAllLasers = new ArrayList<Laser>();
         // Get a word to find
-        wordToFind = VocabularyManager.getWordToFind();
+        mWordToFind = VocabularyManager.getWordToFind();
         // init the font
         initFont();
     }
 
+    /**
+     * Font initialization
+     */
     private void initFont() {
         // get the font which preloaded
-        font = Helpers.openSans_100;
+        mFont = Helpers.openSans_100;
         // I used glyphLayout, because with this, we can use the .width attributs, this way it's simple to center the text where we want
-        glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font,wordToFind.getValue1());
+        mGlyphLayout = new GlyphLayout();
+        mGlyphLayout.setText(mFont,mWordToFind.getValue1());
     }
 
+    /**
+     * Update, here we do logical things. Called from GameState.update method
+     */
     public void update(){
         checkCollision();
         move();
         // If we shoot on, one or more redLaser, we updated them
         if(hasShot()){
             removeLaserIfNotAlive();
-            for(Laser laser : allLasers){
+            for(Laser laser : mAllLasers){
                 laser.update();
             }
         }
     }
 
+    /**
+     * Draw the sprite, called from GameState.render method
+     * @param sb The spriteBatch require to display element on screen
+     */
     public void render(SpriteBatch sb) {
         draw(sb);
         // If we shoot on, one or more redLaser, we updated them
         if(hasShot()){
-            for(Laser laser : allLasers){
+            for(Laser laser : mAllLasers){
                 laser.render(sb);
             }
         }
         // Draw the word to search
-        font.draw(sb, glyphLayout, (Helpers.MOBILE_WIDTH / 2) - (glyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(20));
+        mFont.draw(sb, mGlyphLayout, (Helpers.MOBILE_WIDTH / 2) - (mGlyphLayout.width / 2), getY() - Helpers.getHeightAdaptToResolution(20));
     }
 
+    /**
+     * Check collisions. With screen side, and with meteor. (If we touch meteor we loose a life)
+     */
     private void checkCollision() {
         // Left screen side
         if(getX() <= 0){
             // Stop the player
             setX(0);
-            vPlayer = 0;
+            m_vPlayer = 0;
         }
 
         // Right screen side
         if(getX() + getWidth() >= Helpers.MOBILE_WIDTH){
             // Stop the player
             setX(Helpers.MOBILE_WIDTH - getWidth());
-            vPlayer = 0;
+            m_vPlayer = 0;
         }
 
         // Collision with meteor
@@ -120,70 +136,107 @@ public class Player extends Sprite {
         }
     }
 
+    /**
+     * Updated the X position of the player (called from the GameState when we touch controller button)
+     */
     private void move(){
+        /* All the calculs under, is to have a smoothly move */
         // We add or remove 0.8 to the velocity, this way, the velocity is more and more faster
-        switch (direction){
+        switch (mDirection){
             case "left":
-                vPlayer -= Helpers.getWidthAdaptToResolution((float) 0.8);
+                m_vPlayer -= Helpers.getWidthAdaptToResolution((float) 0.8);
                 break;
             case "right":
-                vPlayer += Helpers.getWidthAdaptToResolution((float) 0.8);
+                m_vPlayer += Helpers.getWidthAdaptToResolution((float) 0.8);
                 break;
             default:
                 // If we don't move, we multiply velocity by < 1, this way, we will stop smoothly
-                vPlayer *= 0.7;
+                m_vPlayer *= 0.7;
                 break;
         }
         // Set the player position
-        setX(getX() + vPlayer);
+        setX(getX() + m_vPlayer);
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    /**
+     * Shoot, create a new Laser object and add it on our array of laser
+     */
+    public void shoot() {
+        mAllLasers.add(new Laser(this, mLaserType));
     }
 
+    /**
+     * Check if we has shot
+     * @return true if we has shot, false otherwise
+     */
     private boolean hasShot(){
-        if(allLasers.size() > 0){
+        if(mAllLasers.size() > 0){
             return true;
         }else{
             return false;
         }
     }
 
-    public void shoot() {
-        allLasers.add(new Laser(this, laserType));
-    }
+    /**
+     * Very important ! If the laser is dead, we remove it from the list, and we dispose (prevent memory leaks, cpu etc..)
+     */
 
-    // Very important ! Id the laser is dead, we remove it from the list, and we dispose (prevent memory leaks, cpu etc..)
     private void removeLaserIfNotAlive() {
-        for(int i = 0; i < allLasers.size(); i++){
-            if(!allLasers.get(i).isAlive()){
-                allLasers.get(i).dispose();
-                allLasers.remove(i);
+        for(int i = 0; i < mAllLasers.size(); i++){
+            if(!mAllLasers.get(i).isAlive()){
+                mAllLasers.get(i).dispose();
+                mAllLasers.remove(i);
             }
         }
     }
 
-    public String getLaserType() {
-        return laserType;
+    /**
+     * Set the direction (just stop or nothing)
+     * @param direction the direction
+     */
+    public void setDirection(String direction) {
+        mDirection = direction;
     }
 
-    public void setLaserType(String laserType) {
-        this.laserType = laserType;
-    }
-
-    public Word getWordToFind() {
-        return wordToFind;
-    }
-
+    /**
+     * Set the new value of the word to find in the font text
+     * @param wordToFind The new Word object to find
+     */
     public void setWordToFind(Word wordToFind) {
-        this.wordToFind = wordToFind;
-        glyphLayout.setText(font, wordToFind.getValue1());
+        mWordToFind = wordToFind;
+        mGlyphLayout.setText(mFont, wordToFind.getValue1());
     }
 
+    /**
+     * Set the laser type (redLaser or greenLaser)
+     * @param laserType The new type of laser
+     */
+    public void setLaserType(String laserType) {
+        this.mLaserType = laserType;
+    }
+
+    /**
+     * Get the type of laser selected (redLaser or greenLaser)
+     * @return the type of laser selected
+     */
+    public String getLaserType() {
+        return mLaserType;
+    }
+
+    /**
+     * Get the Word object to find
+     * @return the Word object to find
+     */
+    public Word getWordToFind() {
+        return mWordToFind;
+    }
+
+    /**
+     * Dispose, to prevent memory leaks, called from GameState.dispose method
+     */
     public void dispose(){
         this.getTexture().dispose();
-        for(Laser laser: allLasers){
+        for(Laser laser: mAllLasers){
             laser.dispose();
         }
     }
