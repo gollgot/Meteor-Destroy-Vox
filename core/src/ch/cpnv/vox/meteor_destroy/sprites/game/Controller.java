@@ -28,10 +28,10 @@ public class Controller{
      */
     private void init() {
         // Create sprites
-        mLeft = new Sprite(new Texture("controls/mLeft.png"));
-        mRight = new Sprite(new Texture("controls/mRight.png"));
-        mShoot = new Sprite(new Texture("controls/mShoot.png"));
-        mWeapon = new Sprite(new Texture("controls/mWeapon.png"));
+        mLeft = new Sprite(new Texture("controls/left.png"));
+        mRight = new Sprite(new Texture("controls/right.png"));
+        mShoot = new Sprite(new Texture("controls/shoot.png"));
+        mWeapon = new Sprite(new Texture("controls/weapon.png"));
 
         // Set size
         mLeft.setSize(Helpers.getWidthAdaptToResolution(mLeft.getWidth()), Helpers.getHeightAdaptToResolution(mLeft.getHeight()));
